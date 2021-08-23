@@ -13,15 +13,13 @@ class Lexer {
   int currentIndex = 0;
   int lineNum = 1;
 
-
   /// Grabs next token from the lexer
   Token getNextToken() {
-    while (
-    currentIndex < program.length && currentChar != null) {
+    while (currentIndex < program.length && currentChar != null) {
       // Skip
-      if (currentChar == ' '
-          || currentChar == '\n'
-          || currentChar == '\r') {
+      if (currentChar == ' ' ||
+          currentChar == '\n' ||
+          currentChar == '\r') {
         skipWhitespace();
       }
 
@@ -310,8 +308,7 @@ class Lexer {
 
   /// Advances to the next character
   void advance() {
-    if (currentChar != '' &&
-        currentIndex < program.length - 1) {
+    if (currentChar != '' && currentIndex < program.length - 1) {
       currentIndex += 1;
       currentChar = program[currentIndex];
     } else if (currentIndex == program.length - 1) {
@@ -347,10 +344,8 @@ class Lexer {
 
   /// Skips any whitespaces since we don't want to have whitespace tokens
   void skipWhitespace() {
-    while (currentChar == ' ' ||
-        currentChar == '\n' ||
-        currentChar == '\r') {
-
+    while (
+        currentChar == ' ' || currentChar == '\n' || currentChar == '\r') {
       if (currentChar == '') {
         return;
       }
@@ -364,9 +359,7 @@ class Lexer {
 
   /// Skip comments since they are only notes for the developers
   void skipInlineComment() {
-    while (currentChar != '\n' &&
-        currentChar != '\n' &&
-        !isAtEnd()) {
+    while (currentChar != '\n' && currentChar != '\n' && !isAtEnd()) {
       advance();
     }
   }
@@ -404,7 +397,8 @@ class Lexer {
     }
 
     final String value = program.substring(initialIndex, currentIndex);
-    final Token token = Token(TokenType.TOKEN_STRING_VALUE, isRaw ? value : value.escape());
+    final Token token = Token(
+        TokenType.TOKEN_STRING_VALUE, isRaw ? value : value.escape());
 
     advance();
 
@@ -428,7 +422,8 @@ class Lexer {
     }
 
     final String value = program.substring(initialIndex, currentIndex);
-    final Token token = Token(TokenType.TOKEN_STRING_VALUE, isRaw ? value : value.escape());
+    final Token token = Token(
+        TokenType.TOKEN_STRING_VALUE, isRaw ? value : value.escape());
 
     advance();
 
@@ -513,7 +508,8 @@ class Lexer {
     }
 
     // Nullable?
-    if (currentChar == '?' && RegExp(r'\s').hasMatch(program[currentIndex + 1])) {
+    if (currentChar == '?' &&
+        RegExp(r'\s').hasMatch(program[currentIndex + 1])) {
       advance();
     }
 
@@ -531,7 +527,7 @@ class Lexer {
   }
 }
 
-  extension on String {
+extension on String {
   String escape() {
     String escapedString = this;
 
@@ -544,8 +540,10 @@ class Lexer {
         .replaceAll(r'\\', '\x5C')
         .replaceAll(r"\'", '\x27')
         .replaceAll(r'\"', '\x22')
-        .replaceAllMapped(RegExp(r'\\x(.){2}'), (m) => String.fromCharCode(int.parse(m.group(1), radix: 16)))
-        .replaceAllMapped(RegExp(r'\\u(.{1,5});'), (m) => String.fromCharCode(int.parse(m.group(1), radix: 16)))
+        .replaceAllMapped(RegExp(r'\\x(.){2}'),
+            (m) => String.fromCharCode(int.parse(m.group(1), radix: 16)))
+        .replaceAllMapped(RegExp(r'\\u(.{1,5});'),
+            (m) => String.fromCharCode(int.parse(m.group(1), radix: 16)))
         .replaceAll(r'\$', '\$')
         .replaceAll(r'$', '\x1B[');
 

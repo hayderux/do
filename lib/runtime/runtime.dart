@@ -233,6 +233,7 @@ class Runtime {
     return varDef;
   }
 
+  // visit
   Future<ASTNode> visit(ASTNode node) async {
     if (node == null) {
       return null;
@@ -618,6 +619,7 @@ class Runtime {
         "Error: [Line ${left.lineNum}] Can't set undefined variable ${left.variableName}$stacktrace");
   }
 
+  // visit variable assignment
   Future<ASTNode> visitVarMod(ASTNode node) async {
     ASTNode value;
 
@@ -853,6 +855,7 @@ class Runtime {
         "Error: [Line ${node.lineNum}] Can't set undefined variable `${node.variableName}`$stacktrace");
   }
 
+  // visist function definition
   Future<ASTNode> visitFuncDef(ASTNode node) async {
     final scope = getScope(node);
     scope.functionDefinitions.addFirst(node);

@@ -7,6 +7,7 @@ enum DATATYPE {
   DATA_TYPE_DOUBLE,
   DATA_TYPE_BOOL,
   DATA_TYPE_CLASS,
+  DATA_TYPE_INTERFACE,
   DATA_TYPE_ENUM,
   DATA_TYPE_LIST,
   DATA_TYPE_MAP,
@@ -14,7 +15,6 @@ enum DATATYPE {
 }
 
 class DataType {
-
   DataType() {
     modifiers.fillRange(0, 2, 0);
   }

@@ -20,7 +20,7 @@ ASTNode INITIALIZED_NOOP;
 Future<void> initStandards(Runtime runtime, String path) async {
   if (path != null) {
     filePath = path.replaceAllMapped(
-        RegExp(r'(.+(?:/|\\))+.+\.birb'), (m) => m.group(1));
+        RegExp(r'(.+(?:/|\\))+.+\.do'), (m) => m.group(1));
   }
 
   runtime.registerGlobalVariable(

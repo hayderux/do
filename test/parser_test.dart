@@ -1,8 +1,7 @@
 import 'dart:io';
-
-import 'package:Birb/lexer/lexer.dart';
-import 'package:Birb/parser/parser.dart';
-import 'package:Birb/ast/ast_node.dart';
+import 'package:dolang/ast/ast_node.dart';
+import 'package:dolang/lexer/lexer.dart';
+import 'package:dolang/parser/parser.dart';
 import 'package:test/test.dart' as test;
 
 void main() {

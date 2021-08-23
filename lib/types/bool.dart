@@ -6,10 +6,11 @@ import '../utils/exceptions.dart';
 ASTNode visitBoolProperties(ASTNode node, ASTNode left) {
   switch (node.binaryOpRight.variableName) {
     case 'runtimeType':
-        return StringNode()
-          ..stringValue = left.boolVal.runtimeType.toString();
+      return StringNode()
+        ..stringValue = left.boolVal.runtimeType.toString();
     default:
-      throw NoSuchPropertyException(node.binaryOpRight.variableName, 'bool');
+      throw NoSuchPropertyException(
+          node.binaryOpRight.variableName, 'bool');
   }
 }
 
@@ -17,8 +18,9 @@ ASTNode visitBoolProperties(ASTNode node, ASTNode left) {
 ASTNode visitBoolMethods(ASTNode node, ASTNode left) {
   switch (node.binaryOpRight.funcCallExpression.variableName) {
     case 'toString':
-        return StringNode()..stringValue = left.boolVal.toString();
+      return StringNode()..stringValue = left.boolVal.toString();
     default:
-      throw NoSuchMethodException(node.binaryOpRight.funcCallExpression.variableName, 'bool');
+      throw NoSuchMethodException(
+          node.binaryOpRight.funcCallExpression.variableName, 'bool');
   }
 }

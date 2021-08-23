@@ -161,7 +161,6 @@ class JsonValueTypeException implements BirbException {
   final String key;
   final ASTType type;
 
-
   @override
   String toString() =>
       'JsonValueTypeException: Unsupported value type `$type`s'
@@ -175,9 +174,9 @@ class NoSuchPropertyException implements BirbException {
   final String propertyName;
   final String typeName;
 
-
   @override
-  String toString() => 'NoSuchPropertyException: No such property `$propertyName` for `$typeName`';
+  String toString() =>
+      'NoSuchPropertyException: No such property `$propertyName` for `$typeName`';
 }
 
 /// Thrown to indicate that a method was not found for the specified datatype
@@ -187,7 +186,7 @@ class NoSuchMethodException implements BirbException {
   final String methodName;
   final String typeName;
 
-
   @override
-  String toString() => 'NoSuchMethodException: No such method `$methodName` for `$typeName`';
+  String toString() =>
+      'NoSuchMethodException: No such method `$methodName` for `$typeName`';
 }

@@ -8,7 +8,7 @@ import 'parser/parser.dart';
 import 'runtime/runtime.dart';
 
 Future<void> main(List<String> arguments) async {
-  /// If no file path is specified the birb shell will
+  /// If no file path is specified the do shell will
   /// start up allowing developers to write programs directly from their terminal
   final isInteractive = arguments.isEmpty;
 
@@ -21,7 +21,7 @@ Future<void> main(List<String> arguments) async {
 
   // No file path is specified, Initiate the birb shell
   if (isInteractive) {
-    print('<<<<< Birb Shell Initiated >>>>>');
+    print('<<<<< Do Shell Initiated >>>>>');
 
     while (true) {
       stdout.write('> ');
@@ -59,7 +59,7 @@ Future<void> main(List<String> arguments) async {
       }
     }
 
-    print('<<<<< Birb Shell Terminated >>>>>');
+    print('<<<<< Do Shell Terminated >>>>>');
     return;
   }
 

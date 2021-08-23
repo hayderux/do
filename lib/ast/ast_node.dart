@@ -5,220 +5,9 @@ import '../parser/data_type.dart';
 import '../runtime/runtime.dart';
 import '../utils/scope.dart';
 
-typedef AstFuncPointer = ASTNode Function(Runtime runtime, ASTNode self, List<ASTNode> args);
-typedef AstFutureFuncPointer = Future<ASTNode> Function(
-    Runtime runtime, ASTNode self, List<ASTNode> args);
-
-
-ASTNode initASTWithLine(ASTNode node, int line) {
-  node.lineNum = line;
-  return node;
-}
-
-abstract class ASTNode {
-  ASTNode parent;
-
-  bool isClassChild = false;
-
-  ASTType type;
-
-  DataType typeValue;
-
-  int lineNum;
-
-  Scope scope;
-
-  ASTNode get assertExpression => throw Exception('Not part of $runtimeType => $type');
-  set assertExpression(ASTNode _) => throw Exception('Not part of $runtimeType => $type');
-
-  ASTNode get ast => throw Exception('Not part of $runtimeType => $type');
-  set ast(ASTNode _) => throw Exception('Not part of $runtimeType => $type');
-
-  ASTNode get binaryOpLeft => throw Exception('Not part of $runtimeType => $type');
-  set binaryOpLeft(ASTNode _) => throw Exception('Not part of $runtimeType => $type');
-
-  ASTNode get binaryOpRight => throw Exception('Not part of $runtimeType => $type');
-  set binaryOpRight(ASTNode _) => throw Exception('Not part of $runtimeType => $type');
-
-  Token get binaryOperator => throw Exception('Not part of $runtimeType => $type');
-  set binaryOperator(Token _) => throw Exception('Not part of $runtimeType => $type');
-
-  bool get boolVal => throw Exception('Not part of $runtimeType => $type');
-  set boolVal(bool _) => throw Exception('Not part of $runtimeType => $type');
-
-  String get className => throw Exception('Not part of $runtimeType => $type');
-  set className(String _) => throw Exception('Not part of $runtimeType => $type');
-
-  ListQueue<ASTNode> get classChildren => throw Exception('Not part of $runtimeType => $type');
-  set classChildren(ListQueue<ASTNode> _) => throw Exception('Not part of $runtimeType => $type');
-
-  List<ASTNode> get compChildren => throw Exception('Not part of $runtimeType => $type');
-  set compChildren(List<ASTNode> _) => throw Exception('Not part of $runtimeType => $type');
-
-  List<ASTNode> get compoundValue => throw Exception('Not part of $runtimeType => $type');
-  set compoundValue(List<ASTNode> _) => throw Exception('Not part of $runtimeType => $type');
-
-  double get doubleVal => throw Exception('Not part of $runtimeType => $type');
-  set doubleVal(double _) => throw Exception('Not part of $runtimeType => $type');
-
-  ASTNode get elseBody => throw Exception('Not part of $runtimeType => $type');
-  set elseBody(ASTNode _) => throw Exception('Not part of $runtimeType => $type');
-
-  List<ASTNode> get enumElements => throw Exception('Not part of $runtimeType => $type');
-  set enumElements(List<ASTNode> _) => throw Exception('Not part of $runtimeType => $type');
-
-  ASTNode get forBody => throw Exception('Not part of $runtimeType => $type');
-  set forBody(ASTNode _) => throw Exception('Not part of $runtimeType => $type');
-
-  ASTNode get forChangeStatement => throw Exception('Not part of $runtimeType => $type');
-  set forChangeStatement(ASTNode _) => throw Exception('Not part of $runtimeType => $type');
-
-  ASTNode get forConditionStatement => throw Exception('Not part of $runtimeType => $type');
-  set forConditionStatement(ASTNode _) => throw Exception('Not part of $runtimeType => $type');
-
-  ASTNode get forInitStatement => throw Exception('Not part of $runtimeType => $type');
-  set forInitStatement(ASTNode _) => throw Exception('Not part of $runtimeType => $type');
-
-  List<ASTNode> get functionCallArgs => throw Exception('Not part of $runtimeType => $type');
-  set functionCallArgs(List<ASTNode> _) => throw Exception('Not part of $runtimeType => $type');
-
-  ASTNode get funcCallExpression => throw Exception('Not part of $runtimeType => $type');
-  set funcCallExpression(ASTNode _) => throw Exception('Not part of $runtimeType => $type');
-
-  List<ASTNode> get functionDefArgs => throw Exception('Not part of $runtimeType => $type');
-  set functionDefArgs(List<ASTNode> _) => throw Exception('Not part of $runtimeType => $type');
-
-  ASTNode get functionDefBody => throw Exception('Not part of $runtimeType => $type');
-  set functionDefBody(ASTNode _) => throw Exception('Not part of $runtimeType => $type');
-
-  ASTNode get funcDefType => throw Exception('Not part of $runtimeType => $type');
-  set funcDefType(ASTNode _) => throw Exception('Not part of $runtimeType => $type');
-
-  List get funcDefinitions => throw Exception('Not part of $runtimeType => $type');
-  set funcDefinitions(List _) => throw Exception('Not part of $runtimeType => $type');
-
-  String get funcName => throw Exception('Not part of $runtimeType => $type');
-  set funcName(String _) => throw Exception('Not part of $runtimeType => $type');
-
-  AstFuncPointer get funcPointer => throw Exception('Not part of $runtimeType => $type');
-  set funcPointer(AstFuncPointer _) => throw Exception('Not part of $runtimeType => $type');
-
-  AstFutureFuncPointer get futureFuncPointer => throw Exception('Not part of $runtimeType => $type');
-  set futureFuncPointer(AstFutureFuncPointer _) => throw Exception('Not part of $runtimeType => $type');
-
-  ASTNode get ifBody => throw Exception('Not part of $runtimeType => $type');
-  set ifBody(ASTNode _) => throw Exception('Not part of $runtimeType => $type');
-
-  ASTNode get ifElse => throw Exception('Not part of $runtimeType => $type');
-  set ifElse(ASTNode _) => throw Exception('Not part of $runtimeType => $type');
-
-  ASTNode get ifExpression => throw Exception('Not part of $runtimeType => $type');
-  set ifExpression(ASTNode _) => throw Exception('Not part of $runtimeType => $type');
-
-  int get intVal => throw Exception('Not part of $runtimeType => $type');
-  set intVal(int _) => throw Exception('Not part of $runtimeType => $type');
-
-  bool get isFinal => throw Exception('Not part of $runtimeType => $type');
-  set isFinal(bool _) => throw Exception('Not part of $runtimeType => $type');
-
-  bool get isNullable => throw Exception('Not part of $runtimeType => $type');
-  set isNullable(bool _) => throw Exception('Not part of $runtimeType => $type');
-
-  bool get isSuperseding => throw Exception('Not part of $runtimeType => $type');
-  set isSuperseding(bool _) => throw Exception('Not part of $runtimeType => $type');
-
-  ASTNode get iterateFunction => throw Exception('Not part of $runtimeType => $type');
-  set iterateFunction(ASTNode _) => throw Exception('Not part of $runtimeType => $type');
-
-  ASTNode get iterateIterable => throw Exception('Not part of $runtimeType => $type');
-  set iterateIterable(ASTNode _) => throw Exception('Not part of $runtimeType => $type');
-
-  ASTNode get listAccessPointer => throw Exception('Not part of $runtimeType => $type');
-  set listAccessPointer(ASTNode _) => throw Exception('Not part of $runtimeType => $type');
-
-  List get listElements => throw Exception('Not part of $runtimeType => $type');
-  set listElements(List _) => throw Exception('Not part of $runtimeType => $type');
-
-  Map<String, dynamic> get map => throw Exception('Not part of $runtimeType => $type');
-  set map(Map<String, dynamic> _) => throw Exception('Not part of $runtimeType => $type');
-
-  List<ASTNode> get namedFunctionDefArgs => throw Exception('Not part of $runtimeType => $type');
-  set namedFunctionDefArgs(List<ASTNode> _) => throw Exception('Not part of $runtimeType => $type');
-
-  List<ASTNode> get namedFunctionCallArgs => throw Exception('Not part of $runtimeType => $type');
-  set namedFunctionCallArgs(List<ASTNode> _) => throw Exception('Not part of $runtimeType => $type');
-
-  ASTNode get newValue => throw Exception('Not part of $runtimeType => $type');
-  set newValue(ASTNode _) => throw Exception('Not part of $runtimeType => $type');
-
-  ASTNode get returnValue => throw Exception('Not part of $runtimeType => $type');
-  set returnValue(ASTNode _) => throw Exception('Not part of $runtimeType => $type');
-
-  ASTNode get throwValue => throw Exception('Not part of $runtimeType => $type');
-  set throwValue(ASTNode _) => throw Exception('Not part of $runtimeType => $type');
-
-  ASTNode get savedFuncCall => throw Exception('Not part of $runtimeType => $type');
-  set savedFuncCall(ASTNode _) => throw Exception('Not part of $runtimeType => $type');
-
-  StringBuffer get strBuffer => throw Exception('Not part of $runtimeType => $type');
-  set strBuffer(StringBuffer _) => throw Exception('Not part of $runtimeType => $type');
-
-  String get stringValue => throw Exception('Not part of $runtimeType => $type');
-  set stringValue(String _) => throw Exception('Not part of $runtimeType => $type');
-
-  ASTNode get superClass => throw Exception('Not part of $runtimeType => $type');
-  set superClass(ASTNode _) => throw Exception('Not part of $runtimeType => $type');
-
-  Map<ASTNode, ASTNode> get switchCases => throw Exception('Not part of $runtimeType => $type');
-  set switchCases(Map<ASTNode, ASTNode>_) => throw Exception('Not part of $runtimeType => $type');
-
-  ASTNode get switchDefault => throw Exception('Not part of $runtimeType => $type');
-  set switchDefault(ASTNode _) => throw Exception('Not part of $runtimeType => $type');
-
-  ASTNode get switchExpression => throw Exception('Not part of $runtimeType => $type');
-  set switchExpression(ASTNode _) => throw Exception('Not part of $runtimeType => $type');
-
-  ASTNode get ternaryBody => throw Exception('Not part of $runtimeType => $type');
-  set ternaryBody(ASTNode _) => throw Exception('Not part of $runtimeType => $type');
-
-  ASTNode get ternaryElseBody => throw Exception('Not part of $runtimeType => $type');
-  set ternaryElseBody(ASTNode _) => throw Exception('Not part of $runtimeType => $type');
-
-  ASTNode get ternaryExpression => throw Exception('Not part of $runtimeType => $type');
-  set ternaryExpression(ASTNode _) => throw Exception('Not part of $runtimeType => $type');
-
-  ASTNode get unaryOpRight => throw Exception('Not part of $runtimeType => $type');
-  set unaryOpRight(ASTNode _) => throw Exception('Not part of $runtimeType => $type');
-
-  Token get unaryOperator => throw Exception('Not part of $runtimeType => $type');
-  set unaryOperator(Token _) => throw Exception('Not part of $runtimeType => $type');
-
-  ASTNode get variableAssignmentLeft => throw Exception('Not part of $runtimeType => $type');
-  set variableAssignmentLeft(ASTNode _) => throw Exception('Not part of $runtimeType => $type');
-
-  String get variableName => throw Exception('Not part of $runtimeType => $type');
-  set variableName(String _) => throw Exception('Not part of $runtimeType => $type');
-
-  ASTNode get variableType => throw Exception('Not part of $runtimeType => $type');
-  set variableType(ASTNode _) => throw Exception('Not part of $runtimeType => $type');
-
-  ASTNode get variableValue => throw Exception('Not part of $runtimeType => $type');
-  set variableValue(ASTNode _) => throw Exception('Not part of $runtimeType => $type');
-
-  ASTNode get whileBody => throw Exception('Not part of $runtimeType => $type');
-  set whileBody(ASTNode _) => throw Exception('Not part of $runtimeType => $type');
-
-  ASTNode get whileExpression => throw Exception('Not part of $runtimeType => $type');
-  set whileExpression(ASTNode _) => throw Exception('Not part of $runtimeType => $type');
-
-  ASTNode copy();
-
-  @override
-  String toString();
-}
-
 enum ASTType {
   AST_CLASS,
+  AST_INTERFACE,
   AST_ENUM,
   AST_VARIABLE,
   AST_VARIABLE_DEFINITION,
@@ -255,4 +44,334 @@ enum ASTType {
   AST_LIST_ACCESS,
   AST_ITERATE,
   AST_ASSERT
+}
+
+typedef AstFuncPointer = ASTNode Function(
+    Runtime runtime, ASTNode self, List<ASTNode> args);
+typedef AstFutureFuncPointer = Future<ASTNode> Function(
+    Runtime runtime, ASTNode self, List<ASTNode> args);
+
+ASTNode initASTWithLine(ASTNode node, int line) {
+  node.lineNum = line;
+  return node;
+}
+
+abstract class ASTNode {
+  ASTNode parent;
+
+  bool isClassChild = false;
+
+  ASTType type;
+
+  DataType typeValue;
+
+  int lineNum;
+
+  Scope scope;
+
+  ASTNode get assertExpression =>
+      throw Exception('Not part of $runtimeType => $type');
+  set assertExpression(ASTNode _) =>
+      throw Exception('Not part of $runtimeType => $type');
+
+  ASTNode get ast => throw Exception('Not part of $runtimeType => $type');
+  set ast(ASTNode _) =>
+      throw Exception('Not part of $runtimeType => $type');
+
+  ASTNode get binaryOpLeft =>
+      throw Exception('Not part of $runtimeType => $type');
+  set binaryOpLeft(ASTNode _) =>
+      throw Exception('Not part of $runtimeType => $type');
+
+  ASTNode get binaryOpRight =>
+      throw Exception('Not part of $runtimeType => $type');
+  set binaryOpRight(ASTNode _) =>
+      throw Exception('Not part of $runtimeType => $type');
+
+  Token get binaryOperator =>
+      throw Exception('Not part of $runtimeType => $type');
+  set binaryOperator(Token _) =>
+      throw Exception('Not part of $runtimeType => $type');
+
+  bool get boolVal => throw Exception('Not part of $runtimeType => $type');
+  set boolVal(bool _) =>
+      throw Exception('Not part of $runtimeType => $type');
+
+  String get className =>
+      throw Exception('Not part of $runtimeType => $type');
+  set className(String _) =>
+      throw Exception('Not part of $runtimeType => $type');
+
+  ListQueue<ASTNode> get classChildren =>
+      throw Exception('Not part of $runtimeType => $type');
+  set classChildren(ListQueue<ASTNode> _) =>
+      throw Exception('Not part of $runtimeType => $type');
+
+  List<ASTNode> get compChildren =>
+      throw Exception('Not part of $runtimeType => $type');
+  set compChildren(List<ASTNode> _) =>
+      throw Exception('Not part of $runtimeType => $type');
+
+  List<ASTNode> get compoundValue =>
+      throw Exception('Not part of $runtimeType => $type');
+  set compoundValue(List<ASTNode> _) =>
+      throw Exception('Not part of $runtimeType => $type');
+
+  double get doubleVal =>
+      throw Exception('Not part of $runtimeType => $type');
+  set doubleVal(double _) =>
+      throw Exception('Not part of $runtimeType => $type');
+
+  ASTNode get elseBody =>
+      throw Exception('Not part of $runtimeType => $type');
+  set elseBody(ASTNode _) =>
+      throw Exception('Not part of $runtimeType => $type');
+
+  List<ASTNode> get enumElements =>
+      throw Exception('Not part of $runtimeType => $type');
+  set enumElements(List<ASTNode> _) =>
+      throw Exception('Not part of $runtimeType => $type');
+
+  ASTNode get forBody =>
+      throw Exception('Not part of $runtimeType => $type');
+  set forBody(ASTNode _) =>
+      throw Exception('Not part of $runtimeType => $type');
+
+  ASTNode get forChangeStatement =>
+      throw Exception('Not part of $runtimeType => $type');
+  set forChangeStatement(ASTNode _) =>
+      throw Exception('Not part of $runtimeType => $type');
+
+  ASTNode get forConditionStatement =>
+      throw Exception('Not part of $runtimeType => $type');
+  set forConditionStatement(ASTNode _) =>
+      throw Exception('Not part of $runtimeType => $type');
+
+  ASTNode get forInitStatement =>
+      throw Exception('Not part of $runtimeType => $type');
+  set forInitStatement(ASTNode _) =>
+      throw Exception('Not part of $runtimeType => $type');
+
+  List<ASTNode> get functionCallArgs =>
+      throw Exception('Not part of $runtimeType => $type');
+  set functionCallArgs(List<ASTNode> _) =>
+      throw Exception('Not part of $runtimeType => $type');
+
+  ASTNode get funcCallExpression =>
+      throw Exception('Not part of $runtimeType => $type');
+  set funcCallExpression(ASTNode _) =>
+      throw Exception('Not part of $runtimeType => $type');
+
+  List<ASTNode> get functionDefArgs =>
+      throw Exception('Not part of $runtimeType => $type');
+  set functionDefArgs(List<ASTNode> _) =>
+      throw Exception('Not part of $runtimeType => $type');
+
+  ASTNode get functionDefBody =>
+      throw Exception('Not part of $runtimeType => $type');
+  set functionDefBody(ASTNode _) =>
+      throw Exception('Not part of $runtimeType => $type');
+
+  ASTNode get funcDefType =>
+      throw Exception('Not part of $runtimeType => $type');
+  set funcDefType(ASTNode _) =>
+      throw Exception('Not part of $runtimeType => $type');
+
+  List get funcDefinitions =>
+      throw Exception('Not part of $runtimeType => $type');
+  set funcDefinitions(List _) =>
+      throw Exception('Not part of $runtimeType => $type');
+
+  String get funcName =>
+      throw Exception('Not part of $runtimeType => $type');
+  set funcName(String _) =>
+      throw Exception('Not part of $runtimeType => $type');
+
+  AstFuncPointer get funcPointer =>
+      throw Exception('Not part of $runtimeType => $type');
+  set funcPointer(AstFuncPointer _) =>
+      throw Exception('Not part of $runtimeType => $type');
+
+  AstFutureFuncPointer get futureFuncPointer =>
+      throw Exception('Not part of $runtimeType => $type');
+  set futureFuncPointer(AstFutureFuncPointer _) =>
+      throw Exception('Not part of $runtimeType => $type');
+
+  ASTNode get ifBody =>
+      throw Exception('Not part of $runtimeType => $type');
+  set ifBody(ASTNode _) =>
+      throw Exception('Not part of $runtimeType => $type');
+
+  ASTNode get ifElse =>
+      throw Exception('Not part of $runtimeType => $type');
+  set ifElse(ASTNode _) =>
+      throw Exception('Not part of $runtimeType => $type');
+
+  ASTNode get ifExpression =>
+      throw Exception('Not part of $runtimeType => $type');
+  set ifExpression(ASTNode _) =>
+      throw Exception('Not part of $runtimeType => $type');
+
+  int get intVal => throw Exception('Not part of $runtimeType => $type');
+  set intVal(int _) =>
+      throw Exception('Not part of $runtimeType => $type');
+
+  bool get isFinal => throw Exception('Not part of $runtimeType => $type');
+  set isFinal(bool _) =>
+      throw Exception('Not part of $runtimeType => $type');
+
+  bool get isNullable =>
+      throw Exception('Not part of $runtimeType => $type');
+  set isNullable(bool _) =>
+      throw Exception('Not part of $runtimeType => $type');
+
+  bool get isSuperseding =>
+      throw Exception('Not part of $runtimeType => $type');
+  set isSuperseding(bool _) =>
+      throw Exception('Not part of $runtimeType => $type');
+
+  ASTNode get iterateFunction =>
+      throw Exception('Not part of $runtimeType => $type');
+  set iterateFunction(ASTNode _) =>
+      throw Exception('Not part of $runtimeType => $type');
+
+  ASTNode get iterateIterable =>
+      throw Exception('Not part of $runtimeType => $type');
+  set iterateIterable(ASTNode _) =>
+      throw Exception('Not part of $runtimeType => $type');
+
+  ASTNode get listAccessPointer =>
+      throw Exception('Not part of $runtimeType => $type');
+  set listAccessPointer(ASTNode _) =>
+      throw Exception('Not part of $runtimeType => $type');
+
+  List get listElements =>
+      throw Exception('Not part of $runtimeType => $type');
+  set listElements(List _) =>
+      throw Exception('Not part of $runtimeType => $type');
+
+  Map<String, dynamic> get map =>
+      throw Exception('Not part of $runtimeType => $type');
+  set map(Map<String, dynamic> _) =>
+      throw Exception('Not part of $runtimeType => $type');
+
+  List<ASTNode> get namedFunctionDefArgs =>
+      throw Exception('Not part of $runtimeType => $type');
+  set namedFunctionDefArgs(List<ASTNode> _) =>
+      throw Exception('Not part of $runtimeType => $type');
+
+  List<ASTNode> get namedFunctionCallArgs =>
+      throw Exception('Not part of $runtimeType => $type');
+  set namedFunctionCallArgs(List<ASTNode> _) =>
+      throw Exception('Not part of $runtimeType => $type');
+
+  ASTNode get newValue =>
+      throw Exception('Not part of $runtimeType => $type');
+  set newValue(ASTNode _) =>
+      throw Exception('Not part of $runtimeType => $type');
+
+  ASTNode get returnValue =>
+      throw Exception('Not part of $runtimeType => $type');
+  set returnValue(ASTNode _) =>
+      throw Exception('Not part of $runtimeType => $type');
+
+  ASTNode get throwValue =>
+      throw Exception('Not part of $runtimeType => $type');
+  set throwValue(ASTNode _) =>
+      throw Exception('Not part of $runtimeType => $type');
+
+  ASTNode get savedFuncCall =>
+      throw Exception('Not part of $runtimeType => $type');
+  set savedFuncCall(ASTNode _) =>
+      throw Exception('Not part of $runtimeType => $type');
+
+  StringBuffer get strBuffer =>
+      throw Exception('Not part of $runtimeType => $type');
+  set strBuffer(StringBuffer _) =>
+      throw Exception('Not part of $runtimeType => $type');
+
+  String get stringValue =>
+      throw Exception('Not part of $runtimeType => $type');
+  set stringValue(String _) =>
+      throw Exception('Not part of $runtimeType => $type');
+
+  ASTNode get superClass =>
+      throw Exception('Not part of $runtimeType => $type');
+  set superClass(ASTNode _) =>
+      throw Exception('Not part of $runtimeType => $type');
+
+  Map<ASTNode, ASTNode> get switchCases =>
+      throw Exception('Not part of $runtimeType => $type');
+  set switchCases(Map<ASTNode, ASTNode> _) =>
+      throw Exception('Not part of $runtimeType => $type');
+
+  ASTNode get switchDefault =>
+      throw Exception('Not part of $runtimeType => $type');
+  set switchDefault(ASTNode _) =>
+      throw Exception('Not part of $runtimeType => $type');
+
+  ASTNode get switchExpression =>
+      throw Exception('Not part of $runtimeType => $type');
+  set switchExpression(ASTNode _) =>
+      throw Exception('Not part of $runtimeType => $type');
+
+  ASTNode get ternaryBody =>
+      throw Exception('Not part of $runtimeType => $type');
+  set ternaryBody(ASTNode _) =>
+      throw Exception('Not part of $runtimeType => $type');
+
+  ASTNode get ternaryElseBody =>
+      throw Exception('Not part of $runtimeType => $type');
+  set ternaryElseBody(ASTNode _) =>
+      throw Exception('Not part of $runtimeType => $type');
+
+  ASTNode get ternaryExpression =>
+      throw Exception('Not part of $runtimeType => $type');
+  set ternaryExpression(ASTNode _) =>
+      throw Exception('Not part of $runtimeType => $type');
+
+  ASTNode get unaryOpRight =>
+      throw Exception('Not part of $runtimeType => $type');
+  set unaryOpRight(ASTNode _) =>
+      throw Exception('Not part of $runtimeType => $type');
+
+  Token get unaryOperator =>
+      throw Exception('Not part of $runtimeType => $type');
+  set unaryOperator(Token _) =>
+      throw Exception('Not part of $runtimeType => $type');
+
+  ASTNode get variableAssignmentLeft =>
+      throw Exception('Not part of $runtimeType => $type');
+  set variableAssignmentLeft(ASTNode _) =>
+      throw Exception('Not part of $runtimeType => $type');
+
+  String get variableName =>
+      throw Exception('Not part of $runtimeType => $type');
+  set variableName(String _) =>
+      throw Exception('Not part of $runtimeType => $type');
+
+  ASTNode get variableType =>
+      throw Exception('Not part of $runtimeType => $type');
+  set variableType(ASTNode _) =>
+      throw Exception('Not part of $runtimeType => $type');
+
+  ASTNode get variableValue =>
+      throw Exception('Not part of $runtimeType => $type');
+  set variableValue(ASTNode _) =>
+      throw Exception('Not part of $runtimeType => $type');
+
+  ASTNode get whileBody =>
+      throw Exception('Not part of $runtimeType => $type');
+  set whileBody(ASTNode _) =>
+      throw Exception('Not part of $runtimeType => $type');
+
+  ASTNode get whileExpression =>
+      throw Exception('Not part of $runtimeType => $type');
+  set whileExpression(ASTNode _) =>
+      throw Exception('Not part of $runtimeType => $type');
+
+  ASTNode copy();
+
+  @override
+  String toString();
 }

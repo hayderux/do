@@ -1,0 +1,9 @@
+var foo = 15;
+switch (foo) {
+    case 15: {
+        scremLn(15); // output 15
+    }
+    default: {
+        scremLn("default");
+    }
+}

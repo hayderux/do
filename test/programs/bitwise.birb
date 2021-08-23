@@ -1,0 +1,20 @@
+int a = 101;
+int b = 202;
+
+assert((a & b) == 64);
+scremLn(a & b); // output 64
+
+assert((a | b) == 239);
+scremLn(a | b); // output 239
+
+assert((a ^ b) == 175);
+scremLn(a ^ b); // output 175
+
+assert((a << b) == 0);
+scremLn(a << b); // output 0
+
+assert((a >> b) == 0);
+scremLn(a >> b); // output 0
+
+assert((~a) == -102);
+scremLn(~a); // output -102

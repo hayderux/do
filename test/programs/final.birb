@@ -1,0 +1,2 @@
+final String henlo = "Henlo Birbo";
+scremLn(henlo); // output Henlo Birbo

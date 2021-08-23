@@ -42,9 +42,10 @@ class Parser {
   bool isDataType() {
     final String tokenValue = curToken.value;
 
-    final List dataTypes = [
+    final List<String> dataTypes = [
       'void',
       'var',
+      'type',
       'int',
       'string',
       'StrBuffer',
@@ -80,7 +81,7 @@ class Parser {
 
   /// Check if the current token is a variable modifier
   bool isModifier(String tokenValue) {
-    return tokenValue == CONST || tokenValue == FINAL;
+    return tokenValue == Constants.CONST || tokenValue == Constants.FINAL;
   }
 
   /// Parses a single statement compound
@@ -103,6 +104,7 @@ class Parser {
     return parseStatements(scope);
   }
 
+  /// eat the current token and get the next one
   void eat(TokenType type) {
     if (curToken.type != type) {
       parserUnexpectedToken(type);
@@ -112,6 +114,7 @@ class Parser {
     }
   }
 
+  /// parse a statement
   ASTNode parseStatement(Scope scope) {
     switch (curToken.type) {
       case TokenType.TOKEN_ID:
@@ -120,7 +123,7 @@ class Parser {
 
           if (isModifier(tokenValue)) {
             eat(TokenType.TOKEN_ID);
-            if (tokenValue == FINAL) {
+            if (tokenValue == Constants.FINAL) {
               return parseDefinition(scope, false, true);
             }
 
@@ -132,32 +135,32 @@ class Parser {
           }
 
           switch (tokenValue) {
-            case WHILE:
+            case Constants.WHILE:
               return parseWhile(scope);
-            case FOR:
+            case Constants.FOR:
               return parseFor(scope);
-            case IF:
+            case Constants.IF:
               return parseIf(scope);
-            case SWITCH:
+            case Constants.SWITCH:
               return parseSwitch(scope);
-            case FALSE:
-            case TRUE:
+            case Constants.FALSE:
+            case Constants.TRUE:
               return parseBool(scope);
-            case NULL:
+            case Constants.NULL:
               return parseNull(scope);
-            case RETURN:
+            case Constants.RETURN:
               return parseReturn(scope);
-            case THROW:
+            case Constants.THROW:
               return parseThrow(scope);
-            case BREAK:
+            case Constants.BREAK:
               return parseBreak(scope);
-            case NEXT:
+            case Constants.NEXT:
               return parseNext(scope);
-            case NEW:
+            case Constants.NEW:
               return parseNew(scope);
-            case ITERATE:
+            case Constants.ITERATE:
               return parseIterate(scope);
-            case ASSERT:
+            case Constants.ASSERT:
               return parseAssert(scope);
           }
 
@@ -213,7 +216,7 @@ class Parser {
         eat(TokenType.TOKEN_GREATER_THAN);
 
         switch (annotation) {
-          case SUPERSEDE:
+          case Constants.SUPERSEDE:
             return parseDefinition(scope, curToken.value == 'const',
                 curToken.value == 'final', true);
           default:
@@ -265,6 +268,7 @@ class Parser {
     return initASTWithLine(NoopNode(), lexer.lineNum);
   }
 
+  /// parse statements
   ASTNode parseStatements(Scope scope) {
     final compound = initASTWithLine(CompoundNode(), lexer.lineNum);
     compound.scope = scope;
@@ -294,6 +298,7 @@ class Parser {
     return compound;
   }
 
+  /// parse type
   ASTNode parseType(Scope scope) {
     final ASTNode astType = initASTWithLine(TypeNode(), lexer.lineNum)
       ..scope = scope;
@@ -320,6 +325,9 @@ class Parser {
       case 'var':
         type.type = DATATYPE.DATA_TYPE_VAR;
         break;
+      case 'type':
+        type.type = DATATYPE.DATA_TYPE_VAR;
+        break;
       case 'int':
         type.type = DATATYPE.DATA_TYPE_INT;
         break;
@@ -331,6 +339,9 @@ class Parser {
         break;
       case 'class':
         type.type = DATATYPE.DATA_TYPE_CLASS;
+        break;
+      case 'interface':
+        type.type = DATATYPE.DATA_TYPE_INTERFACE;
         break;
       case 'enum':
         type.type = DATATYPE.DATA_TYPE_ENUM;
@@ -353,6 +364,7 @@ class Parser {
     return astType;
   }
 
+  /// parse double
   ASTNode parseDouble(Scope scope) {
     final ast = initASTWithLine(DoubleNode(), lexer.lineNum);
     ast.scope = scope;
@@ -363,6 +375,7 @@ class Parser {
     return ast;
   }
 
+  /// parse string
   ASTNode parseString(Scope scope) {
     final ast = initASTWithLine(StringNode(), lexer.lineNum)
       ..scope = scope
@@ -373,6 +386,7 @@ class Parser {
     return ast;
   }
 
+  /// parse int
   ASTNode parseInt(Scope scope) {
     final ast = initASTWithLine(IntNode(), lexer.lineNum)
       ..scope = scope
@@ -383,6 +397,7 @@ class Parser {
     return ast;
   }
 
+  /// parse bool
   ASTNode parseBool(Scope scope) {
     final ast = initASTWithLine(BoolNode(), lexer.lineNum)..scope = scope;
 
@@ -397,6 +412,7 @@ class Parser {
     return ast;
   }
 
+  /// parse null
   ASTNode parseNull(Scope scope) {
     final ast = initASTWithLine(NoSeebNode(), lexer.lineNum)
       ..scope = scope;
@@ -406,6 +422,7 @@ class Parser {
     return ast;
   }
 
+  /// parse variable
   ASTNode parseVariable(Scope scope) {
     final ast = initASTWithLine(VariableNode(), lexer.lineNum)
       ..scope = scope
@@ -467,6 +484,7 @@ class Parser {
     return ast;
   }
 
+  /// parse braces
   ASTNode parseBrace(Scope scope) {
     if (prevToken.type != TokenType.TOKEN_ID) {
       return parseMap(scope);
@@ -475,6 +493,7 @@ class Parser {
     return parseClass(scope);
   }
 
+  /// parse class
   ASTNode parseClass(Scope scope) {
     final ASTNode ast = initASTWithLine(ClassNode(), lexer.lineNum)
       ..scope = scope
@@ -516,6 +535,13 @@ class Parser {
     return ast;
   }
 
+  /// e.g.
+  /// enum Color {
+  ///  red,
+  /// green,
+  /// blue
+  /// }
+  /// parse enums
   ASTNode parseEnum(Scope scope) {
     final ast = initASTWithLine(EnumNode(), lexer.lineNum);
     ast.scope = scope;
@@ -552,6 +578,7 @@ class Parser {
     return ast;
   }
 
+  /// parse maps
   ASTNode parseMap(Scope scope) {
     eat(TokenType.TOKEN_LBRACE);
 
@@ -607,6 +634,7 @@ class Parser {
     return ast;
   }
 
+  /// parse array
   ASTNode parseList(Scope scope) {
     eat(TokenType.TOKEN_LBRACKET);
     final ast = initASTWithLine(ListNode(), lexer.lineNum);
@@ -646,12 +674,12 @@ class Parser {
 
     if (curToken.type == TokenType.TOKEN_ID) {
       switch (curToken.value) {
-        case TRUE:
-        case FALSE:
+        case Constants.TRUE:
+        case Constants.FALSE:
           return parseBool(scope);
-        case NULL:
+        case Constants.NULL:
           return parseNull(scope);
-        case NEW:
+        case Constants.NEW:
           return parseNew(scope);
       }
     }
@@ -786,7 +814,7 @@ class Parser {
 
     if (isModifier(tokenValue)) {
       eat(TokenType.TOKEN_ID);
-      if (tokenValue == FINAL) {
+      if (tokenValue == Constants.FINAL) {
         return parseDefinition(scope, false, true, false, true);
       }
 
@@ -826,6 +854,7 @@ class Parser {
     return node;
   }
 
+  /// parse expression
   ASTNode parseExpression(Scope scope, {bool isFuncDefArgs = false}) {
     var node = parseTerm(scope, isFuncDefArgs: isFuncDefArgs);
     ASTNode astBinaryOp;
@@ -893,18 +922,21 @@ class Parser {
     return node;
   }
 
+  /// parse break statement
   ASTNode parseBreak(Scope scope) {
     eat(TokenType.TOKEN_ID);
 
     return initASTWithLine(BreakNode(), lexer.lineNum);
   }
 
+  /// parse next
   ASTNode parseNext(Scope scope) {
     eat(TokenType.TOKEN_ID);
 
     return initASTWithLine(NextNode(), lexer.lineNum);
   }
 
+  /// parse new
   ASTNode parseNew(Scope scope) {
     eat(TokenType.TOKEN_ID);
 
@@ -914,6 +946,7 @@ class Parser {
     return newAST;
   }
 
+  /// parse return
   ASTNode parseReturn(Scope scope) {
     eat(TokenType.TOKEN_ID);
     final ast = initASTWithLine(ReturnNode(), lexer.lineNum)
@@ -923,6 +956,7 @@ class Parser {
     return ast;
   }
 
+  /// parse throw
   ASTNode parseThrow(Scope scope) {
     eat(TokenType.TOKEN_ID);
     final ast = initASTWithLine(ThrowNode(), lexer.lineNum)
@@ -932,6 +966,7 @@ class Parser {
     return ast;
   }
 
+  /// if statement
   ASTNode parseIf(Scope scope) {
     final ast = initASTWithLine(IfNode(), lexer.lineNum);
     eat(TokenType.TOKEN_ID);
@@ -951,10 +986,10 @@ class Parser {
       ast.ifBody = parseOneStatementCompound(scope);
     }
 
-    if (curToken.value == ELSE) {
+    if (curToken.value == Constants.ELSE) {
       eat(TokenType.TOKEN_ID);
 
-      if (curToken.value == IF) {
+      if (curToken.value == Constants.IF) {
         ast.ifElse = parseIf(scope);
         ast.ifElse.scope = scope;
       } else {
@@ -979,6 +1014,7 @@ class Parser {
     return ast;
   }
 
+  /// switch statement
   ASTNode parseSwitch(Scope scope) {
     final ASTNode switchAST = initASTWithLine(SwitchNode(), lexer.lineNum)
       ..switchCases = {};
@@ -1003,7 +1039,7 @@ class Parser {
 
     switchAST.switchCases[caseAST] = caseFuncAST;
 
-    while (curToken.value == CASE) {
+    while (curToken.value == Constants.CASE) {
       eat(TokenType.TOKEN_ID);
 
       caseAST = parseStatement(scope);
@@ -1034,6 +1070,7 @@ class Parser {
     return switchAST;
   }
 
+  /// parse ternary
   ASTNode parseTernary(Scope scope, ASTNode expr) {
     final ternary = initASTWithLine(TernaryNode(), lexer.lineNum);
     ternary.ternaryExpression = expr;
@@ -1049,6 +1086,7 @@ class Parser {
     return ternary;
   }
 
+  /// iterate
   ASTNode parseIterate(Scope scope) {
     eat(TokenType.TOKEN_ID);
     final astVar = parseExpression(scope);
@@ -1058,7 +1096,7 @@ class Parser {
 
     if (isModifier(curToken.value)) {
       eat(TokenType.TOKEN_ID);
-      if (curToken.value == FINAL) {
+      if (curToken.value == Constants.FINAL) {
         return parseDefinition(scope, false, true);
       }
 
@@ -1079,6 +1117,7 @@ class Parser {
     return ast;
   }
 
+  /// parse assert
   ASTNode parseAssert(Scope scope) {
     eat(TokenType.TOKEN_ID);
     final ast = initASTWithLine(AssertNode(), lexer.lineNum);
@@ -1087,6 +1126,7 @@ class Parser {
     return ast;
   }
 
+  /// parse while
   ASTNode parseWhile(Scope scope) {
     eat(TokenType.TOKEN_ID);
     eat(TokenType.TOKEN_LPAREN);
@@ -1107,6 +1147,7 @@ class Parser {
     return ast;
   }
 
+  /// parse for
   ASTNode parseFor(Scope scope) {
     final ast = ForNode();
 
@@ -1136,6 +1177,7 @@ class Parser {
     return ast;
   }
 
+  /// parse function call
   ASTNode parseFunctionCall(Scope scope, ASTNode expr) {
     final ast = initASTWithLine(FuncCallNode(), lexer.lineNum);
     ast.funcCallExpression = expr;
@@ -1196,6 +1238,7 @@ class Parser {
     return ast;
   }
 
+  /// parse function definition
   ASTNode parseDefinition(Scope scope,
       [bool isConst = false,
       bool isFinal = false,
@@ -1210,7 +1253,7 @@ class Parser {
       eat(TokenType.TOKEN_GREATER_THAN);
 
       switch (annotation) {
-        case SUPERSEDE:
+        case Constants.SUPERSEDE:
           isConst = curToken.value == 'const';
           isFinal = curToken.value == 'final';
           isSuperseding = true;
@@ -1282,6 +1325,7 @@ class Parser {
     }
   }
 
+  ///
   ASTNode parseFunctionDefinition(
       Scope scope, String funcName, ASTNode astType) {
     final ast = initASTWithLine(FuncDefNode(), lexer.lineNum)
@@ -1347,7 +1391,7 @@ class Parser {
 
       if (isModifier(curToken.value)) {
         eat(TokenType.TOKEN_ID);
-        if (curToken.value == FINAL) {
+        if (curToken.value == Constants.FINAL) {
           return parseDefinition(scope, false, true);
         }
 
@@ -1368,7 +1412,7 @@ class Parser {
 
         if (isModifier(curToken.value)) {
           eat(TokenType.TOKEN_ID);
-          if (curToken.value == FINAL) {
+          if (curToken.value == Constants.FINAL) {
             return parseDefinition(scope, false, true);
           }
 
@@ -1395,7 +1439,7 @@ class Parser {
 
       if (isModifier(curToken.value)) {
         eat(TokenType.TOKEN_ID);
-        if (curToken.value == FINAL) {
+        if (curToken.value == Constants.FINAL) {
           return parseDefinition(scope, false, true);
         }
 
@@ -1417,7 +1461,7 @@ class Parser {
 
         if (isModifier(curToken.value)) {
           eat(TokenType.TOKEN_ID);
-          if (curToken.value == FINAL) {
+          if (curToken.value == Constants.FINAL) {
             return parseDefinition(scope, false, true);
           }
 

@@ -127,6 +127,7 @@ abstract class ASTNode {
   set elseBody(ASTNode _) =>
       throw Exception('Not part of $runtimeType => $type');
 
+  /// enums
   List<ASTNode> get enumElements =>
       throw Exception('Not part of $runtimeType => $type');
   set enumElements(List<ASTNode> _) =>

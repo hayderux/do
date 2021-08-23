@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:console/console.dart';
+
 import 'ast/ast_node.dart';
 import 'utils/exceptions.dart';
 import 'lexer/lexer.dart';
@@ -8,6 +10,10 @@ import 'parser/parser.dart';
 import 'runtime/runtime.dart';
 
 Future<void> main(List<String> arguments) async {
+  final pens = TextPen();
+  pens.setColor(Color.YELLOW);
+  pens.text('<<<<< Do Shell Initiated >>>>>');
+
   /// If no file path is specified the do shell will
   /// start up allowing developers to write programs directly from their terminal
   final isInteractive = arguments.isEmpty;
@@ -21,7 +27,7 @@ Future<void> main(List<String> arguments) async {
 
   // No file path is specified, Initiate the birb shell
   if (isInteractive) {
-    print('<<<<< Do Shell Initiated >>>>>');
+    pens.print();
 
     while (true) {
       stdout.write('> ');

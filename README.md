@@ -4,8 +4,9 @@ eyvery app should have a main function.
 
 e.g.
 
-```typescript
+```go
 function main() {
+
   print("hello world");
 }
 ```
@@ -53,11 +54,11 @@ var names = ["hayder", "Jay", "any"];
 
 interfaces is a way to define a set of properties.
 
-```typescript
+```go
 interface mytype {
-  name: string;
-  age: number;
-  isAvalible: boolean;
+  name string;
+  age int;
+  isAvalible bool;
 }
 ```
 
@@ -103,8 +104,8 @@ enum status {
     fail = 1,
     waiting = 2,
 }
-function myfunc(value: status) {
-
+function myfunc {
+  @param value status;
   switch (value) {
     case success => print("success");
     case fail => print("fail");
@@ -118,30 +119,46 @@ function myfunc(value: status) {
 # functions
 
 ```typescript
-function hello(name) {
+void hello {
+  @param {
+      name string;
+      age int?;
+      isAvalible bool;
+  };
+
+
   print("Hello " + name);
 }
 ```
 
 another example:
 
-```rust
-function hello(name: string, age: number) {
-    print("Hello " + name + " " + age);
+```typescript
+function hello {
+  @param {
+      name: string;
+      age: number;
+      isAvalible: boolean;
+      address: Map<string, any>;
+  }
+  @return string;
+  var {name,age}= params;
+  return "Hello " + name;
 }
 //
 function main() {
-    hello({
-        name: "Hayder",
-        age: 24,
-    });
+  hello({
+    name: "Hayder",
+    age: 24,
+  });
 }
+>> "Hello Hayder 24"
 ```
 
 # async functions
 
 ```typescript
-async function foo() {
+async function foo {
   var foo = await bar();
 }
 ```
@@ -157,7 +174,8 @@ async function foo() {
 `destroy` Called when the resource is destroyed
 
 ```typescript
-async function main() {
+async function main {
+    //
     async.hooks({
         init: () {},
         before: () {},
@@ -275,12 +293,12 @@ var tuple<PersonProps> = ["first", 2, true];
 
 Extensions are a way to add new functionality to existing types or classes/interfaces.
 
-```dart
+```typescript
 extension mytype on string {
 
 
     // geter
-    get isEmpty => this.length == 0? true : false;
+    var isEmpty => this.length == 0? true : false;
 
     // or use a function
     function isEmpty() {
@@ -302,15 +320,19 @@ print(name.isEmpty)
 
 more examples:
 
-```dart
+```go
 // extension on interface
 interface Foo {
-  name: string;
-  age: number;
+  name string;
+  age int;
 }
+```
+
+```dart
+
 extension Bar on Foo {
     // getter
-    get isAvalible => this.age > 18;
+   bool get isAvalible => this.age > 18;
     //function
     function isAvalible() {
         if (this.age > 18) {
@@ -338,7 +360,7 @@ another example:
 
 ```dart
 // extension on string
-extension MyExt on string {
+ext MyExt on string {
     function API () {
         return "http://www.google.com/$this";
     }
@@ -351,11 +373,21 @@ var myendpoint = "hayder".API();
 
 nullable or optional types are a way to define a type that can be null or undefined.
 
-```typescript
+```go
 interface Mytype {
     name string; // required
-    age number?; // optional
-    isAvalible boolean?; // optional
+    age int?; // optional
+    isAvalible bool?; // optional
+}
+```
+
+or
+
+```go
+interface Mytype {
+    name string; // required
+    age int?; // optional
+    isAvalible bool?; // optional
 }
 ```
 

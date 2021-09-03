@@ -1,26 +1,7 @@
+import { VarStatement, Statement, ReturnStatement, ExpressionStatement, Identifier, IntegerLiteral, StringLiteral, PrefixExpression, Expression, AstBoolean, InfixExpression, IfExpression, FunctionLiteral, CallExpression, ArrayLiteral, IndexExpression, HashLiteral } from "../ast/ast";
 import Lexer from "../lexer/lexer";
-import Parser from "./parser";
 import Test from "../test/test";
-import {
-  AstBoolean,
-  CallExpression,
-  Expression,
-  ExpressionStatement,
-  FunctionLiteral,
-  Identifier,
-  IfExpression,
-  InfixExpression,
-  IntegerLiteral,
-  VarStatement,
-  PrefixExpression,
-  ReturnStatement,
-  Statement,
-  StringLiteral,
-  ArrayLiteral,
-  IndexExpression,
-  HashLiteral,
-} from "../.github/ast/ast";
-
+import Parser from "./parser";
 export function TestParser(t: Test) {
   console.log("║  ├ TestVarStatements");
   TestVarStatements(t);

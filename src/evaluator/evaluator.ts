@@ -1,36 +1,4 @@
-import {
-  AnyNodeType,
-  ArrayLiteral,
-  AstBoolean,
-  ASTProgram,
-  BlockStatement,
-  CallExpression,
-  Comment,
-  ConstStatement,
-  DecrementExpression,
-  EnumExpression,
-  Expression,
-  ExpressionStatement,
-  FloatLiteral,
-  ForLiteral,
-  FunctionLiteral,
-  HashLiteral,
-  Identifier,
-  IfExpression,
-  ImportSpec,
-  IncrementExpression,
-  IndexExpression,
-  InfixExpression,
-  IntegerLiteral,
-  NullLiteral,
-  PrefixExpression,
-  RangeLiteral,
-  ReturnStatement,
-  StringLiteral,
-  SwitchExpression,
-  VarStatement,
-  WhileLiteral,
-} from "../.github/ast/ast";
+import { AnyNodeType, ASTProgram, ImportSpec, ExpressionStatement, FloatLiteral, IntegerLiteral, StringLiteral, NullLiteral, RangeLiteral, Comment, AstBoolean, PrefixExpression, InfixExpression, BlockStatement, IfExpression, ReturnStatement, VarStatement, ConstStatement, Identifier, IncrementExpression, DecrementExpression, SwitchExpression, EnumExpression, WhileLiteral, ForLiteral, FunctionLiteral, CallExpression, ArrayLiteral, IndexExpression, HashLiteral, Expression } from "../ast/ast";
 import Lexer from "../lexer/lexer";
 import Environment, { NewEnclosedEnvironment } from "../object/environment";
 import OObject, {

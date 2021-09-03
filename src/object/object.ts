@@ -1,4 +1,4 @@
-import { BlockStatement, Identifier } from "../.github/ast/ast";
+import { Identifier, BlockStatement } from "../ast/ast";
 import Configuration from "../evaluator/configuration";
 import Environment from "./environment";
 

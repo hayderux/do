@@ -1,37 +1,4 @@
-import {
-  ArrayLiteral,
-  AstBoolean,
-  ASTProgram,
-  BlockStatement,
-  CallExpression,
-  CaseExpression,
-  Comment,
-  ConstStatement,
-  DecrementExpression,
-  EnumExpression,
-  Expression,
-  ExpressionStatement,
-  FloatLiteral,
-  ForLiteral,
-  FunctionLiteral,
-  HashLiteral,
-  Identifier,
-  IfExpression,
-  ImportSpec,
-  IncrementExpression,
-  IndexExpression,
-  InfixExpression,
-  IntegerLiteral,
-  NullLiteral,
-  PrefixExpression,
-  RangeLiteral,
-  ReturnStatement,
-  Statement,
-  StringLiteral,
-  SwitchExpression,
-  VarStatement,
-  WhileLiteral,
-} from "../.github/ast/ast";
+import { ASTProgram, Statement, IndexExpression, Identifier, VarStatement, ConstStatement, ReturnStatement, ExpressionStatement, IncrementExpression, DecrementExpression, Comment, IntegerLiteral, RangeLiteral, FloatLiteral, StringLiteral, PrefixExpression, Expression, InfixExpression, AstBoolean, NullLiteral, IfExpression, BlockStatement, ImportSpec, FunctionLiteral, WhileLiteral, ForLiteral, CallExpression, ArrayLiteral, HashLiteral, SwitchExpression, CaseExpression, EnumExpression } from "../ast/ast";
 import Lexer from "../lexer/lexer";
 import Token, { TokenType, TokenTypeName } from "../token/token";
 

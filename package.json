@@ -2,6 +2,21 @@
   "name": "do",
   "version": "1.0.0",
   "main": "index.js",
+  "private": "true",
   "repository": "https://github.com/hayderux/do.git",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc -p tsconfig.json",
+    "dev": "ts-node src/main.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^16.7.4",
+    "llvm-node": "^3.0.0",
+    "ts-node": "^10.2.1",
+    "typescript": "^4.4.2"
+  },
+  "dependencies": {
+    "syntax-parser": "^1.0.15"
+  }
 }

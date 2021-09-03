@@ -1,4 +1,0 @@
-String str = 'henlo';
-String str = 'birb';
-
-screm(str); // output birb

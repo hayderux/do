@@ -1,9 +1,0 @@
-grab('birb:convert');
-
-Map map = {
-"content": "foo"
-};
-
-String str = encodeJson(map);
-
-scremLn(str); // output {"content":"foo"}

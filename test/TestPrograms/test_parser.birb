@@ -1,7 +1,0 @@
-String henlo = "Henlo birb";
-
-void print(String msg) {
-    scremLn(msg);
-}
-
-print(henlo);

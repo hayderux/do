@@ -1,4 +1,0 @@
-const String henlo = "Henlo Birbo";
-
-assert(henlo == "Henlo Birbo");
-scremLn(henlo); // output Henlo Birbo

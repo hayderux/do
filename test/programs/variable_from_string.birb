@@ -1,4 +1,0 @@
-  
-String greeting = 'henlo!';
-
-screm(variableFromString('greeting')); // output henlo!

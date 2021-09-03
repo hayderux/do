@@ -1,1 +1,1 @@
-function main() {}
+var name = "hayder";

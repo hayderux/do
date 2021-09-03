@@ -1,0 +1,27 @@
+{
+  "name": "monkey-typescript",
+  "version": "0.2.0",
+  "description": "A Monkey language interpreter in Typescript",
+  "main": "build/index",
+  "types": "build/index",
+  "bin": {
+    "monkey-typescript": "./bin/monkey-typescript"
+  },
+  "scripts": {
+    "start": "npm run build:live",
+    "build": "tsc -p .",
+    "build:live": "nodemon --watch '**/*.ts' --exec 'ts-node' index.ts",
+    "repl": "ts-node index.ts",
+    "test": "ts-node -p test.ts",
+    "test:live": "nodemon --watch '**/*.ts' --exec 'ts-node' test.ts",
+    "clean": "rm -rf build"
+  },
+  "devDependencies": {
+    "@types/node": "^12.0.10",
+    "@types/sprintf-js": "^1.1.2",
+    "nodemon": "^1.19.1",
+    "sprintf-js": "^1.1.2",
+    "ts-node": "^8.3.0",
+    "typescript": "^3.5.2"
+  }
+}

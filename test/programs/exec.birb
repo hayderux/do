@@ -1,5 +1,0 @@
-grab("birb:io");
-
-String toExec = "screm('Henlo exec!')";
-
-execute(toExec); // output Henlo exec!

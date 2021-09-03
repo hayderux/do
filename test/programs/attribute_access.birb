@@ -1,7 +1,0 @@
-int length = "foo".length;
-
-assert(length == 3);
-scremLn(length); // output 3
-
-assert(length.isEven == false);
-scremLn(length.isEven); // output false

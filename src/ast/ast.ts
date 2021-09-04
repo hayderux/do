@@ -665,12 +665,12 @@ export class SwitchExpression implements Expression {
 
 // EnumExpression
 // ENUM Identifier LBRACE Identifier (COMMA Identifier)* RBRACE
-export class EnumExpression implements Expression {
+export class EnumLiteral implements Expression {
   Token: Token;
   Name: Identifier;
-  Values: Identifier[];
+  Values: EnumElement[];
 
-  constructor(token: Token, name: Identifier, values: Identifier[]) {
+  constructor(token: Token, name: Identifier, values: EnumElement[]) {
     this.Token = token;
     this.Name = name;
     this.Values = values;
@@ -686,3 +686,64 @@ export class EnumExpression implements Expression {
     )} }`;
   }
 }
+// enum element
+// enum element have a name and a optional value
+export class EnumElement implements Expression {
+  Token: Token;
+  Name: Identifier;
+  Value: Expression;
+
+  constructor(token: Token, name: Identifier, value: Expression) {
+    this.Token = token;
+    this.Name = name;
+    this.Value = value;
+  }
+
+  TokenLiteral() {
+    return this.Token.Literal;
+  }
+  String() {
+    return `${this.TokenLiteral()} ${this.Name.String()} ${
+      this.Value ? `= ${this.Value.String()}` : ""
+    }`;
+  }
+}
+
+// class
+// class Identifier {
+//   Identifier (Identifier)* (LBRACE RBRACE | LBRACE (Statement)* RBRACE)
+// }
+// e.g. class Foo {
+//   bar() {
+//     return "bar";
+//   }
+// }
+export class ClassLiteral implements Expression {
+  Token: Token;
+  Name: Identifier;
+  Methods: FunctionLiteral[];
+
+  constructor(token: Token, name: Identifier, methods: FunctionLiteral[]) {
+    this.Token = token;
+    this.Name = name;
+    this.Methods = methods;
+  }
+
+  TokenLiteral() {
+    return this.Token.Literal;
+  }
+  String() {
+    let methods: string[] = this.Methods.map((m) => m.String());
+    return `${this.TokenLiteral()} ${this.Name.String()} { ${methods.join(
+      "; "
+    )} }`;
+  }
+}
+// interface
+// interface Identifier {
+//  Identifier: Type (COMMA Identifier: Type)*;
+// }
+// e.g. interface Foo {
+//   bar: string;
+//   baz: number;
+// } 

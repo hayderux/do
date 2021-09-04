@@ -1,2 +1,2 @@
-const name = "hayder";
-print(name);
+enum Color { RED , GREEN, BLUE };
+print(Color);

@@ -1,4 +1,4 @@
-import { Identifier, BlockStatement } from "../ast/ast";
+import { BlockStatement, FunctionLiteral, Identifier } from "../ast/ast";
 import Configuration from "../evaluator/configuration";
 import Environment from "./environment";
 
@@ -193,7 +193,33 @@ export class OError implements OObject {
     return new Error(this.Message);
   }
 }
-
+// OClass
+export class OClass implements OObject {
+  Name: string;
+  Environment: Environment;
+  Methods: FunctionLiteral[];
+  constructor(
+    name: string,
+    methods: FunctionLiteral[],
+    environment: Environment
+  ) {
+    this.Name = name;
+    this.Environment = environment;
+    this.Methods = methods;
+  }
+  Inspect() {
+    return `Class ${this.Name}`;
+  }
+  Type() {
+    return "class";
+  }
+  toString() {
+    return `Class ${this.Name}`;
+  }
+  toValue() {
+    return this;
+  }
+}
 export class OFunction implements OObject {
   Parameters: Identifier[];
   Body: BlockStatement;
@@ -236,9 +262,10 @@ function hashCode(str: string): number {
 
 export class OString implements OObject {
   Value: string;
-
-  constructor(value: string) {
+  isRaw: boolean;
+  constructor(value: string, isRaw: boolean = false) {
     this.Value = value;
+    this.isRaw = isRaw;
   }
 
   Type() {
@@ -248,6 +275,9 @@ export class OString implements OObject {
     return this.Value;
   }
   toString() {
+    if (this.isRaw) {
+      return this.Value;
+    }
     return `"${this.Value}"`;
   }
   toValue() {

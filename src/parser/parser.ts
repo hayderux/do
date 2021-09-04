@@ -1,4 +1,39 @@
-import { ASTProgram, Statement, IndexExpression, Identifier, VarStatement, ConstStatement, ReturnStatement, ExpressionStatement, IncrementExpression, DecrementExpression, Comment, IntegerLiteral, RangeLiteral, FloatLiteral, StringLiteral, PrefixExpression, Expression, InfixExpression, AstBoolean, NullLiteral, IfExpression, BlockStatement, ImportSpec, FunctionLiteral, WhileLiteral, ForLiteral, CallExpression, ArrayLiteral, HashLiteral, SwitchExpression, CaseExpression, EnumExpression } from "../ast/ast";
+import {
+  ArrayLiteral,
+  AstBoolean,
+  ASTProgram,
+  BlockStatement,
+  CallExpression,
+  CaseExpression,
+  ClassLiteral,
+  Comment,
+  ConstStatement,
+  DecrementExpression,
+  EnumElement,
+  EnumLiteral,
+  Expression,
+  ExpressionStatement,
+  FloatLiteral,
+  ForLiteral,
+  FunctionLiteral,
+  HashLiteral,
+  Identifier,
+  IfExpression,
+  ImportSpec,
+  IncrementExpression,
+  IndexExpression,
+  InfixExpression,
+  IntegerLiteral,
+  NullLiteral,
+  PrefixExpression,
+  RangeLiteral,
+  ReturnStatement,
+  Statement,
+  StringLiteral,
+  SwitchExpression,
+  VarStatement,
+  WhileLiteral,
+} from "../ast/ast";
 import Lexer from "../lexer/lexer";
 import Token, { TokenType, TokenTypeName } from "../token/token";
 
@@ -97,7 +132,8 @@ export default class Parser {
     this.registerPrefix(TokenType.SWITCH, this.parseSwitchStatement.bind(this));
     // enum
     this.registerPrefix(TokenType.ENUM, this.parseEnumStatement.bind(this));
-    //
+    //class
+    this.registerPrefix(TokenType.CLASS, this.parseClassStatement.bind(this));
     this.registerPrefix(
       TokenType.FUNCTION,
       this.parseFunctionLiteral.bind(this)
@@ -859,7 +895,7 @@ export default class Parser {
     return new CaseExpression(curToken, Expression, false, Body);
   }
   // ENUM Identifier LBRACE Identifier (COMMA Identifier)* RBRACE
-  parseEnumStatement(): EnumExpression | null {
+  parseEnumStatement(): EnumLiteral | null {
     let curToken = this.curToken;
     this.nextToken();
     let name = this.parseIdentifier() as Identifier;
@@ -868,11 +904,13 @@ export default class Parser {
       return null;
     }
 
-    let Enum: EnumExpression = new EnumExpression(curToken, name, []);
+    let Enum: EnumLiteral = new EnumLiteral(curToken, name, []);
     while (!this.curTokenIs(TokenType.RBRACE)) {
       if (this.curTokenIs(TokenType.IDENT)) {
-        let id = this.parseIdentifier() as Identifier;
-        Enum.Values.push(id);
+        let id = this.parseEnumElement();
+        if (id != null) {
+          Enum.Values.push(id);
+        }
         this.nextToken();
       } else if (TokenType.COMMA) {
         this.nextToken();
@@ -881,5 +919,46 @@ export default class Parser {
       }
     }
     return Enum;
+  }
+  // enum element
+  // enum element have a name and a optional value
+  // e.g.
+  // enum Color { Red, Green, Blue }
+  // enum Color { Red = 1, Green, Blue }
+  parseEnumElement(): EnumElement | null {
+    let curToken = this.curToken;
+    let name = this.parseIdentifier() as Identifier;
+
+    if (this.curTokenIs(TokenType.ASSIGN)) {
+      this.nextToken();
+      let value = this.parseExpression(LOWEST);
+      return new EnumElement(curToken, name, value);
+    } else {
+      return new EnumElement(curToken, name, name);
+    }
+  }
+  // parse class
+  // class Identifier {
+  // Identifier (Identifier)* (LBRACE RBRACE | LBRACE (Statement)* RBRACE)
+  // }
+  parseClassStatement(): ClassLiteral | null {
+    let curToken = this.curToken;
+    this.nextToken();
+    let name = this.parseIdentifier() as Identifier;
+
+    if (!this.expectPeek(TokenType.LBRACE)) {
+      return null;
+    }
+
+    let Class = new ClassLiteral(curToken, name, []);
+
+    while (!this.curTokenIs(TokenType.RBRACE)) {
+      let method = this.parseFunctionLiteral();
+      if (method != null) {
+        Class.Methods.push(method);
+      }
+    }
+
+    return Class;
   }
 }

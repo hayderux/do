@@ -1,19 +1,26 @@
-import OObject, { Builtin, STRING_OBJ, BOOLEAN_OBJ } from '../../object/object';
-import { newError, NULL } from '../evaluator';
-import Environment from '../../object/environment';
-import fs from 'fs';
+import fs from "fs";
+import Environment from "../../object/environment";
+import OObject, { BOOLEAN_OBJ, Builtin, STRING_OBJ } from "../../object/object";
+import { newError, NULL } from "../evaluator";
 
 // makes a directory
 // file_mkdir('tmp')
 // file_mkdir('a/b/c', true)
-export default new Builtin(function(env: Environment, ...args: OObject[]): OObject {
+export default new Builtin(function (
+  env: Environment,
+  ...args: OObject[]
+): OObject {
   if (args.length === 1 || args.length === 2) {
-    return newError('wrong number of arguments. got=%s, want=1|2', args.length);
+    return newError("wrong number of arguments. got=%s, want=1|2", args.length);
   }
 
-  if (args[0].Type() !== STRING_OBJ && (args[1] && args[1].Type() !== BOOLEAN_OBJ)) {
+  if (
+    args[0].Type() !== STRING_OBJ &&
+    args[1] &&
+    args[1].Type() !== BOOLEAN_OBJ
+  ) {
     return newError(
-      'argument to `file_mkdir` must be STRING|BOOLEAN?, got %s',
+      "argument to `file_mkdir` must be STRING|BOOLEAN?, got %s",
       args[0].Type(),
       args[1] ? args[1].Type() : null
     );
@@ -24,7 +31,7 @@ export default new Builtin(function(env: Environment, ...args: OObject[]): OObje
 
   try {
     fs.mkdirSync(path, { recursive });
-  } catch (e) {
+  } catch (e: any) {
     return newError(e.message);
   }
 

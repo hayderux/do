@@ -79,6 +79,8 @@ export const TokenType: { [index: string]: TokenTypeName } = {
   IMPORT: "IMPORT",
   FUNCTION: "FUNCTION",
   WHILE: "WHILE",
+  TRY: "TRY",
+  CATCH: "CATCH",
   FOR: "FOR",
   VAR: "VAR",
   CONST: "CONST",
@@ -87,12 +89,31 @@ export const TokenType: { [index: string]: TokenTypeName } = {
   IF: "IF",
   ELSE: "ELSE",
   RETURN: "RETURN",
+  THIS: "THIS",
+  ASSERT: "ASSERT",
   NULL: "NULL",
   ENUM: "ENUM",
   class: "CLASS",
   INTERFACE: "INTERFACE",
+  // advanced
+  TASK: "TASK",
+  ASYNC: "ASYNC",
+  THREAD: "THREAD",
+  MACRO: "MACRO",
+  MEMORY: "MEMORY",
+  TYPE: "TYPE",
+  EXTENSTION: "EXTENSTION",
+  // types
+  INT_TYPE: "INT",
+  FLOAT_TYPE: "FLOAT",
+  STRING_TYPE: "STRING",
+  BOOL_TYPE: "BOOL",
+  VOID_TYPE: "VOID",
+  ARRAY_TYPE: "ARRAY",
+  TUPLE_TYPE: "TUPLE",
+  OBJECT_TYPE: "OBJECT",
+  ANY_TYPE: "ANY",
 };
-
 // keyword strings are defined here as the index
 // for example, this is where a function is defined as "function"
 export const Keywords: { [index: string]: string } = {
@@ -111,13 +132,27 @@ export const Keywords: { [index: string]: string } = {
   false: TokenType.FALSE,
   if: TokenType.IF,
   else: TokenType.ELSE,
+  this: TokenType.THIS,
   return: TokenType.RETURN,
   and: TokenType.LAND,
   or: TokenType.LOR,
+  assert: TokenType.ASSERT,
   null: TokenType.NULL,
+  try: TokenType.TRY,
+  catch: TokenType.CATCH,
   enum: TokenType.ENUM,
   class: TokenType.class,
   interface: TokenType.INTERFACE,
+  //types
+  any: TokenType.ANY_TYPE,
+  int: TokenType.INT_TYPE,
+  float: TokenType.FLOAT_TYPE,
+  string: TokenType.STRING_TYPE,
+  bool: TokenType.BOOL_TYPE,
+  void: TokenType.VOID_TYPE,
+  array: TokenType.ARRAY_TYPE,
+  tuple: TokenType.TUPLE_TYPE,
+  object: TokenType.OBJECT_TYPE,
 };
 
 export function LookupIdent(ident: string): string {

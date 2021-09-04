@@ -1,4 +1,37 @@
-import { AnyNodeType, ASTProgram, ImportSpec, ExpressionStatement, FloatLiteral, IntegerLiteral, StringLiteral, NullLiteral, RangeLiteral, Comment, AstBoolean, PrefixExpression, InfixExpression, BlockStatement, IfExpression, ReturnStatement, VarStatement, ConstStatement, Identifier, IncrementExpression, DecrementExpression, SwitchExpression, EnumExpression, WhileLiteral, ForLiteral, FunctionLiteral, CallExpression, ArrayLiteral, IndexExpression, HashLiteral, Expression } from "../ast/ast";
+import {
+  AnyNodeType,
+  ArrayLiteral,
+  AstBoolean,
+  ASTProgram,
+  BlockStatement,
+  CallExpression,
+  ClassLiteral,
+  Comment,
+  ConstStatement,
+  DecrementExpression,
+  EnumLiteral,
+  Expression,
+  ExpressionStatement,
+  FloatLiteral,
+  ForLiteral,
+  FunctionLiteral,
+  HashLiteral,
+  Identifier,
+  IfExpression,
+  ImportSpec,
+  IncrementExpression,
+  IndexExpression,
+  InfixExpression,
+  IntegerLiteral,
+  NullLiteral,
+  PrefixExpression,
+  RangeLiteral,
+  ReturnStatement,
+  StringLiteral,
+  SwitchExpression,
+  VarStatement,
+  WhileLiteral,
+} from "../ast/ast";
 import Lexer from "../lexer/lexer";
 import Environment, { NewEnclosedEnvironment } from "../object/environment";
 import OObject, {
@@ -14,6 +47,7 @@ import OObject, {
   NullableOObject,
   OArray,
   OBoolean,
+  OClass,
   OComment,
   OError,
   OFloat,
@@ -50,6 +84,10 @@ export default function Eval(
     return new OInteger(node.Value);
   } else if (node instanceof StringLiteral) {
     return new OString(node.Value);
+  }
+  //class
+  else if (node instanceof ClassLiteral) {
+    return evalClassLiteral(node, env);
   }
   // NullLiteral
   else if (node instanceof NullLiteral) {
@@ -106,7 +144,7 @@ export default function Eval(
     return evalSwitchExpression(node, env);
   }
   // enum
-  else if (node instanceof EnumExpression) {
+  else if (node instanceof EnumLiteral) {
     return evalEnumExpression(node, env);
   } else if (node instanceof WhileLiteral) {
     return evalWhile(node.Expression, node.Body, env);
@@ -282,20 +320,20 @@ function evalWhile(
 
   return result;
 }
-// eval enum literal
 // enum Color {Red, Green, Blue}
 function evalEnumExpression(
-  expression: EnumExpression,
+  expression: EnumLiteral,
   env: Environment
 ): NullableOObject {
   let name = expression.Name;
   let values = expression.Values;
 
-  let pairs = new Map<string, HashPair>();
-  let i = 0;
+  let pairs = new Map<string, any>();
+  let i;
   for (let value of values) {
-    let key = new OString(value.Value);
-    let pair = new HashPair(key, value.Value as any);
+    i == null ? (i = 0) : i++;
+    let key = new OString(i.toString(), true);
+    let pair = new HashPair(key, value.TokenLiteral() as any);
     pairs.set(key.HashKey().Match, pair);
   }
 
@@ -303,6 +341,21 @@ function evalEnumExpression(
   env.Set(name.Value, hash);
 
   return hash;
+}
+// eval class literal
+// class identifier { foo() {} ..... }
+//
+function evalClassLiteral(
+  expression: ClassLiteral,
+  env: Environment
+): NullableOObject {
+  let name = expression.Name;
+  let methods = expression.Methods;
+
+  let classObj = new OClass(name.Value, methods, env);
+  env.Set(name.Value, classObj);
+
+  return classObj;
 }
 
 // for(let i = 1; i <= 10; let i = i + 1){ print(i * 2) }
@@ -663,7 +716,7 @@ function evalSwitchExpression(
   }
 
   if (defaultCase !== null) {
-    return Eval(defaultCase.Body, env);
+    return Eval(defaultCase.Block, env);
   }
 
   return NULL;

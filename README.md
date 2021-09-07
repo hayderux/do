@@ -293,12 +293,12 @@ var tuple<PersonProps> = ["first", 2, true];
 
 Extensions are a way to add new functionality to existing types or classes/interfaces.
 
-```dart
+```typescript
 extension mytype on string {
 
 
     // geter
-    var get isEmpty => this.length == 0? true : false;
+    var isEmpty => this.length == 0? true : false;
 
     // or use a function
     function isEmpty() {
@@ -367,17 +367,6 @@ ext MyExt on string {
 }
 var myendpoint = "hayder".API();
 >> "http://www.google.com/hayder"
-```
-
-// another example:
-
-```typescript
-class A {
-    val msg = "Hello world"
-}
-function A.printString(){
-    print(this.string)
-}
 ```
 
 # Nullable types

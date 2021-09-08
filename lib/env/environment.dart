@@ -1,18 +1,20 @@
-import 'runtime_error.dart';
 import '../token/token.dart';
+import 'runtime_error.dart';
 
 class Environment {
+  Environment([this.enclosing]);
+
   final Environment? enclosing;
   final _values = <String, Object?>{};
-
-  Environment([this.enclosing]);
 
   Object? get(Token name) {
     if (_values.containsKey(name.lexeme)) {
       return _values[name.lexeme];
     }
 
-    if (enclosing != null) return enclosing!.get(name);
+    if (enclosing != null) {
+      return enclosing!.get(name);
+    }
 
     throw RuntimeError(name, "Undefined variable '${name.lexeme}'.");
   }

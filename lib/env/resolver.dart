@@ -53,7 +53,9 @@ class Resolver implements ExprVisitor<void>, StmtVisitor<void> {
   }
 
   void declare(Token name) {
-    if (scopes.isEmpty) return;
+    if (scopes.isEmpty) {
+      return;
+    }
     if (scopes.last.containsKey(name.lexeme)) {
       throw RuntimeError(
           name, 'Variable with this name already declared in this scope.');
@@ -63,7 +65,9 @@ class Resolver implements ExprVisitor<void>, StmtVisitor<void> {
   }
 
   void define(Token name) {
-    if (scopes.isEmpty) return;
+    if (scopes.isEmpty) {
+      return;
+    }
     scopes.last[name.lexeme] = true;
   }
 
@@ -117,7 +121,9 @@ class Resolver implements ExprVisitor<void>, StmtVisitor<void> {
 
     endScope();
 
-    if (stmt.superclass != null) endScope();
+    if (stmt.superclass != null) {
+      endScope();
+    }
 
     currentClass = enclosingClass;
   }
@@ -139,7 +145,9 @@ class Resolver implements ExprVisitor<void>, StmtVisitor<void> {
   void visitIfStmt(If stmt) {
     resolveE(stmt.condition);
     resolveS(stmt.thenBranch);
-    if (stmt.elseBranch != null) resolveS(stmt.elseBranch!);
+    if (stmt.elseBranch != null) {
+      resolveS(stmt.elseBranch!);
+    }
   }
 
   @override

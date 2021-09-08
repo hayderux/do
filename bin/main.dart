@@ -1,6 +1,7 @@
 import 'dart:io';
 
-import 'package:lox/env/lox.dart';
+import 'package:dolang/constants/constants.dart';
+import 'package:dolang/env/lox.dart';
 
 void main(List<String> args) {
   if (args.length > 1) {
@@ -9,6 +10,7 @@ void main(List<String> args) {
   } else if (args.length == 1) {
     _runFile(args[0]);
   } else {
+    stdout.writeln(Constants.startText);
     _runPrompt();
   }
 }

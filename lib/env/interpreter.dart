@@ -1,5 +1,4 @@
 import '../ast/ast.dart';
-import 'runtime_error.dart';
 import '../token/token.dart';
 import '../token/token_type.dart';
 import '../types/lox_callable.dart';
@@ -8,6 +7,7 @@ import '../types/lox_function.dart';
 import '../types/lox_instance.dart';
 import '../types/lox_return.dart';
 import 'environment.dart';
+import 'runtime_error.dart';
 
 class Interpreter implements ExprVisitor<Object?>, StmtVisitor<void> {
   final globals = Environment();
@@ -112,7 +112,6 @@ class Interpreter implements ExprVisitor<Object?>, StmtVisitor<void> {
     } else if (stmt.elseBranch != null) {
       execute(stmt.elseBranch!);
     }
-    return null;
   }
 
   @override
@@ -142,7 +141,6 @@ class Interpreter implements ExprVisitor<Object?>, StmtVisitor<void> {
     while (isTruthy(evaluate(stmt.condition))) {
       execute(stmt.body);
     }
-    return null;
   }
 
   @override
@@ -246,9 +244,13 @@ class Interpreter implements ExprVisitor<Object?>, StmtVisitor<void> {
     var left = evaluate(expr.left);
 
     if (expr.operator.type == TokenType.OR) {
-      if (isTruthy(left)) return left;
+      if (isTruthy(left)) {
+        return left;
+      }
     } else {
-      if (!isTruthy(left)) return left;
+      if (!isTruthy(left)) {
+        return left;
+      }
     }
 
     return evaluate(expr.right);
@@ -318,26 +320,36 @@ class Interpreter implements ExprVisitor<Object?>, StmtVisitor<void> {
   }
 
   double checkNumberOperand(Token operator, Object? operand) {
-    if (operand is double) return operand;
+    if (operand is double) {
+      return operand;
+    }
     throw RuntimeError(operator, 'Operand must be a number.');
   }
 
   void checkNumberOperands(Token operator, Object? left, Object? right) {
-    if (left is double && right is double) return;
+    if (left is double && right is double) {
+      return;
+    }
 
     throw RuntimeError(operator, 'Operands must be numbers.');
   }
 
   bool isTruthy(Object? object) {
-    if (object == null) return false;
-    if (object is bool) return object;
+    if (object == null) {
+      return false;
+    }
+    if (object is bool) {
+      return object;
+    }
     return true;
   }
 
   bool isEqual(Object? a, Object? b) => a == b;
 
   String stringify(Object? object) {
-    if (object == null) return 'nil';
+    if (object == null) {
+      return 'nil';
+    }
 
     // Hack. Work around Dart adding ".0" to integer-valued doubles.
     if (object is double) {

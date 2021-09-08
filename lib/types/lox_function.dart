@@ -31,11 +31,15 @@ class LoxFunction implements LoxCallable {
     try {
       interpreter.executeBlock(_declaration.body, environment);
     } on LoxReturn catch (returnValue) {
-      if (_isInitializer) return _closure.getAt(0, 'this');
+      if (_isInitializer) {
+        return _closure.getAt(0, 'this');
+      }
       return returnValue.value;
     }
 
-    if (_isInitializer) return _closure.getAt(0, 'this');
+    if (_isInitializer) {
+      return _closure.getAt(0, 'this');
+    }
     return null;
   }
 

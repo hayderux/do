@@ -155,7 +155,9 @@ class Scanner {
 
   void _string() {
     while (_peek() != '"' && !_isAtEnd) {
-      if (_peek() == '\n') _line++;
+      if (_peek() == '\n') {
+        _line++;
+      }
       _advance();
     }
 
@@ -176,20 +178,28 @@ class Scanner {
   }
 
   bool _match(String expected) {
-    if (_isAtEnd) return false;
-    if (_source[_current] != expected) return false;
+    if (_isAtEnd) {
+      return false;
+    }
+    if (_source[_current] != expected) {
+      return false;
+    }
 
     _current++;
     return true;
   }
 
   String _peek() {
-    if (_isAtEnd) return '\x00';
+    if (_isAtEnd) {
+      return '\x00';
+    }
     return _source[_current];
   }
 
   String _peekNext() {
-    if (_current + 1 >= _source.length) return '\x00';
+    if (_current + 1 >= _source.length) {
+      return '\x00';
+    }
     return _source[_current + 1];
   }
 

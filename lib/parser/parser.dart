@@ -3,10 +3,10 @@ import '../env/runtime_error.dart';
 import '../token/token.dart';
 
 class Parser {
+  Parser(this._tokens);
+  //
   final List<Token> _tokens;
   int _current = 0;
-
-  Parser(this._tokens);
 
   List<Stmt> parse() {
     var statements = <Stmt>[];
@@ -22,9 +22,15 @@ class Parser {
   }
 
   Stmt declaration() {
-    if (match(CLASS)) return classDeclaration();
-    if (match(FUN)) return function('function');
-    if (match(VAR)) return varDeclaration();
+    if (match(CLASS)) {
+      return classDeclaration();
+    }
+    if (match(FUN)) {
+      return function('function');
+    }
+    if (match(VAR)) {
+      return varDeclaration();
+    }
 
     return statement();
   }
@@ -51,12 +57,24 @@ class Parser {
   }
 
   Stmt statement() {
-    if (match(FOR)) return forStatement();
-    if (match(IF)) return ifStatement();
-    if (match(PRINT)) return printStatement();
-    if (match(RETURN)) return returnStatement();
-    if (match(WHILE)) return whileStatement();
-    if (match(LEFT_BRACE)) return Block(block());
+    if (match(FOR)) {
+      return forStatement();
+    }
+    if (match(IF)) {
+      return ifStatement();
+    }
+    if (match(PRINT)) {
+      return printStatement();
+    }
+    if (match(RETURN)) {
+      return returnStatement();
+    }
+    if (match(WHILE)) {
+      return whileStatement();
+    }
+    if (match(LEFT_BRACE)) {
+      return Block(block());
+    }
 
     return expressionStatement();
   }
@@ -321,9 +339,15 @@ class Parser {
   }
 
   Expr primary() {
-    if (match(FALSE)) return Literal(false);
-    if (match(TRUE)) return Literal(true);
-    if (match(NIL)) return Literal(null);
+    if (match(FALSE)) {
+      return Literal(false);
+    }
+    if (match(TRUE)) {
+      return Literal(true);
+    }
+    if (match(NIL)) {
+      return Literal(null);
+    }
 
     if (match(NUMBER, STRING)) {
       return Literal(previous().literal);
@@ -336,7 +360,9 @@ class Parser {
       return Super(keyword, method);
     }
 
-    if (match(THIS)) return This(previous());
+    if (match(THIS)) {
+      return This(previous());
+    }
 
     if (match(IDENTIFIER)) {
       return Variable(previous());
@@ -363,18 +389,24 @@ class Parser {
   }
 
   Token consume(TokenType type, String message) {
-    if (check(type)) return advance();
+    if (check(type)) {
+      return advance();
+    }
 
     throw error(peek(), message);
   }
 
   bool check(TokenType type) {
-    if (isAtEnd()) return false;
+    if (isAtEnd()) {
+      return false;
+    }
     return peek().type == type;
   }
 
   Token advance() {
-    if (!isAtEnd()) _current++;
+    if (!isAtEnd()) {
+      _current++;
+    }
     return previous();
   }
 
@@ -398,7 +430,9 @@ class Parser {
     advance();
 
     while (!isAtEnd()) {
-      if (previous().type == SEMICOLON) return;
+      if (previous().type == SEMICOLON) {
+        return;
+      }
 
       switch (peek().type) {
         case CLASS:

@@ -24,14 +24,14 @@
             }
         },
         {
-            "label": "run example",
+            "label": "build",
             "type": "shell",
-            "command": "dart bin/main.dart examples/1.lox",
+            "command": "dart compile exe bin/main.dart",
             "problemMatcher": [],
             "group": {
                 "kind": "build",
                 "isDefault": true
             }
-        }
+        },
     ]
 }

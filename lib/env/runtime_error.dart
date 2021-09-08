@@ -1,5 +1,3 @@
-import 'package:lox/token/token.dart';
-
 import '../token/token.dart';
 
 class RuntimeError implements Exception {

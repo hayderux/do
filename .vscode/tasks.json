@@ -6,7 +6,7 @@
         {
             "label": "run",
             "type": "shell",
-            "command": "dart run lib/main.dart",
+            "command": "dart bin/main.dart",
             "problemMatcher": [],
             "group": {
                 "kind": "build",
@@ -14,9 +14,19 @@
             }
         },
         {
-            "label": "run node",
+            "label": "run example",
             "type": "shell",
-            "command": "npm run dev",
+            "command": "dart bin/main.dart examples/1.lox",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "run example",
+            "type": "shell",
+            "command": "dart bin/main.dart examples/1.lox",
             "problemMatcher": [],
             "group": {
                 "kind": "build",

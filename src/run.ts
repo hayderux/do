@@ -1,5 +1,5 @@
-import { Parser } from ".";
 import Lexer from "./lexer/lexer";
+import Parser from "./parser/parser";
 
 // read file using fs
 const fs = require("fs");

@@ -4,9 +4,9 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "run e.g",
+            "label": "run run.ts",
             "type": "shell",
-            "command": "ts-node index.ts examples/1.do",
+            "command": "ts-node run.ts",
             "problemMatcher": [],
             "group": {
                 "kind": "build",

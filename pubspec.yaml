@@ -1,7 +1,0 @@
-name: dolang
-
-environment:
-  sdk: ">=2.13.4 <3.0.0"
-
-dev_dependencies:
-  pedantic: ^1.11.0

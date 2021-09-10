@@ -1,3 +1,20 @@
-.dart_tool/
-.packages
-bin/main.exe
+##
+*.class
+*.lock
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.VSCodeCounter/
+.buildlog/
+.history
+.svn/
+## Compiled JavaScript files
+**/*.js
+**/*.js.map
+
+# Typescript v1 declaration files
+typings/
+
+node_modules/

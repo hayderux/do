@@ -14,106 +14,111 @@ export default class Token {
 
 export type TokenTypeName = string;
 
-export const TokenType: { [index: string]: TokenTypeName } = {
-  ILLEGAL: "ILLEGAL",
-  EOF: "EOF",
-  COMMENT: "COMMENT",
+export enum TokenType {
+  ILLEGAL = "ILLEGAL",
+  EOF = "EOF",
+  COMMENT = "COMMENT",
 
   // Identifiers + literals
-  IDENT: "IDENT", // add, foobar, x, y, ...
-  INT: "INT", // 1343456
-  FLOAT: "FLOAT", // 123.456
-  STRING: "STRING", // "foo", "Hello, World!"
+  IDENT = "IDENT", // add, foobar, x, y, ...
+  LT_INT = "LITERAL_INT", // 1343456
+  LI_FLOAT = "LITERAL_FLOAT", // 123.456
+  LT_STRING = "LITERAL_STRING", // "foo", "Hello, World!"
 
-  LBRACKET: "[", // for arrays
-  RBRACKET: "]",
+  LBRACKET = "[", // for arrays
+  RBRACKET = "]",
 
-  INCREMENT: "++",
-  DECREMENT: "--",
+  INCREMENT = "++",
+  DECREMENT = "--",
 
   // Operators
-  ASSIGN: "=",
-  PLUS: "+",
-  MINUS: "-",
-  BANG: "!",
-  ASTERISK: "*",
-  EXPONENT: "**",
-  SLASH: "/",
-  REM: "%",
-  LT: "<",
-  GT: ">",
-  LTE: "<=",
-  GTE: ">=",
-  EQ: "==",
-  NOT_EQ: "!=",
-  RANGE: "..",
-  RANGE_INCL: "...",
+  ASSIGN = "=",
+  COLONEQ = ":=",
+  PLUS = "+",
+  MINUS = "-",
+  BANG = "!",
+  ASTERISK = "*",
+  EXPONENT = "**",
+  SLASH = "/",
+  REM = "%",
+  LT = "<",
+  GT = ">",
+  LTE = "<=",
+  GTE = ">=",
+  EQ = "==",
+  NOT_EQ = "!=",
+  RANGE = "..",
+  RANGE_INCL = "...",
 
   // Bitwise
-  BIT_AND: "&",
-  BIT_OR: "|",
-  BIT_XOR: "^",
-  BIT_NOT: "~",
-  BIT_LSHIFT: "<<",
-  BIT_RSHIFT: ">>",
-  BIT_ZRSHIFT: ">>>",
+  BIT_AND = "&",
+  BIT_OR = "|",
+  BIT_XOR = "^",
+  BIT_NOT = "~",
+  BIT_LSHIFT = "<<",
+  BIT_RSHIFT = ">>",
+  BIT_ZRSHIFT = ">>>",
 
   // Delimiters
-  COMMA: ",",
-  PERIOD: ".",
-  COLON: ":",
-  SEMICOLON: ";",
-  LPAREN: "(",
-  RPAREN: ")",
-  LBRACE: "{",
-  RBRACE: "}",
+  COMMA = ",",
+  PERIOD = ".",
+  COLON = ":",
+  SEMICOLON = ";",
+  LPAREN = "(",
+  RPAREN = ")",
+  LBRACE = "{",
+  RBRACE = "}",
+  AT = "@",
+  // hash
+  HASH = "#",
+  // underscore
+  UNDERSCORE = "_",
 
   // Keywords
-  LAND: "AND",
-  LOR: "OR",
-  AS: "AS",
-  IS: "IS",
-  SWITCH: "SWITCH",
-  CASE: "CASE",
-  DEFAULT: "DEFAULT",
-  IMPORT: "IMPORT",
-  FUNCTION: "FUNCTION",
-  WHILE: "WHILE",
-  TRY: "TRY",
-  CATCH: "CATCH",
-  FOR: "FOR",
-  VAR: "VAR",
-  CONST: "CONST",
-  TRUE: "TRUE",
-  FALSE: "FALSE",
-  IF: "IF",
-  ELSE: "ELSE",
-  RETURN: "RETURN",
-  THIS: "THIS",
-  ASSERT: "ASSERT",
-  NULL: "NULL",
-  ENUM: "ENUM",
-  class: "CLASS",
-  INTERFACE: "INTERFACE",
+  LAND = "AND",
+  LOR = "OR",
+  AS = "AS",
+  IS = "IS",
+  SWITCH = "SWITCH",
+  CASE = "CASE",
+  DEFAULT = "DEFAULT",
+  IMPORT = "IMPORT",
+  FUNCTION = "FUNCTION",
+  WHILE = "WHILE",
+  TRY = "TRY",
+  CATCH = "CATCH",
+  FOR = "FOR",
+  CONST = "CONST",
+  TRUE = "TRUE",
+  FALSE = "FALSE",
+  IF = "IF",
+  ELSE = "ELSE",
+  RETURN = "RETURN",
+  THIS = "THIS",
+  ASSERT = "ASSERT",
+  NULL = "nil",
   // advanced
-  TASK: "TASK",
-  ASYNC: "ASYNC",
-  THREAD: "THREAD",
-  MACRO: "MACRO",
-  MEMORY: "MEMORY",
-  TYPE: "TYPE",
-  EXTENSTION: "EXTENSTION",
+  MEMORY = "MEMORY",
+  EXTENSTION = "EXTENSTION",
   // types
-  INT_TYPE: "INT",
-  FLOAT_TYPE: "FLOAT",
-  STRING_TYPE: "STRING",
-  BOOL_TYPE: "BOOL",
-  VOID_TYPE: "VOID",
-  ARRAY_TYPE: "ARRAY",
-  TUPLE_TYPE: "TUPLE",
-  OBJECT_TYPE: "OBJECT",
-  ANY_TYPE: "ANY",
-};
+  INT = "INT",
+  FLOAT = "FLOAT",
+  STRING = "STRING",
+  BOOL = "BOOL",
+  VOID = "VOID",
+  ARRAY = "ARRAY",
+  TUPLE = "TUPLE",
+  OBJECT = "OBJECT",
+  ANY = "ANY",
+  // model aka interface
+  MODEL = "MODEL",
+  // enum
+  ENUM = "ENUM",
+  // type
+  TYPE = "TYPE",
+  //VAR
+  VAR = "VAR",
+}
 // keyword strings are defined here as the index
 // for example, this is where a function is defined as "function"
 export const Keywords: { [index: string]: string } = {
@@ -126,7 +131,6 @@ export const Keywords: { [index: string]: string } = {
   function: TokenType.FUNCTION,
   while: TokenType.WHILE,
   for: TokenType.FOR,
-  var: TokenType.VAR,
   const: TokenType.CONST,
   true: TokenType.TRUE,
   false: TokenType.FALSE,
@@ -137,22 +141,27 @@ export const Keywords: { [index: string]: string } = {
   and: TokenType.LAND,
   or: TokenType.LOR,
   assert: TokenType.ASSERT,
-  null: TokenType.NULL,
+  nil: TokenType.NULL,
   try: TokenType.TRY,
   catch: TokenType.CATCH,
-  enum: TokenType.ENUM,
-  class: TokenType.class,
-  interface: TokenType.INTERFACE,
   //types
-  any: TokenType.ANY_TYPE,
-  int: TokenType.INT_TYPE,
-  float: TokenType.FLOAT_TYPE,
-  string: TokenType.STRING_TYPE,
-  bool: TokenType.BOOL_TYPE,
-  void: TokenType.VOID_TYPE,
-  array: TokenType.ARRAY_TYPE,
-  tuple: TokenType.TUPLE_TYPE,
-  object: TokenType.OBJECT_TYPE,
+  any: TokenType.ANY,
+  int: TokenType.INT,
+  float: TokenType.FLOAT,
+  string: TokenType.STRING,
+  bool: TokenType.BOOL,
+  void: TokenType.VOID,
+  array: TokenType.ARRAY,
+  tuple: TokenType.TUPLE,
+  object: TokenType.OBJECT,
+  // model aka interface
+  model: TokenType.MODEL,
+  //
+  enum: TokenType.ENUM,
+  // type
+  type: TokenType.TYPE,
+  // var
+  var: TokenType.VAR,
 };
 
 export function LookupIdent(ident: string): string {

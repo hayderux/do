@@ -1,7 +1,39 @@
 import Token from "../token/token";
 
 export type AnyNodeType = Node | Statement | Expression | ASTProgram;
+// data type
+export type DataType =
+  | "int"
+  | "float"
+  | "bool"
+  | "string"
+  | "void"
+  | "undefined"
+  | "any";
+//
+export type NodeKind =
+  | AstBoolean
+  | IntegerLiteral
+  | StringLiteral
+  | VarStatement
+  | ReturnStatement
+  | ExpressionStatement
+  | IfExpression
+  | ForLiteral
+  | PrefixExpression
+  | IncrementExpression
+  | DecrementExpression
+  | RangeLiteral
+  | ArrayLiteral
+  | InfixExpression
+  | BlockStatement
+  | WhileLiteral
+  | FunctionLiteral
+  | IndexExpression
+  | CallExpression
+  | EnumLiteral;
 
+//
 export interface Node {
   TokenLiteral(): string;
   String(): string;
@@ -36,17 +68,21 @@ export class VarStatement implements Statement {
   Name: Identifier;
   Value: Expression | Identifier;
   Index: IndexExpression | null;
+  Type: Identifier | null;
 
   constructor(
     token: Token,
     name: Identifier,
     value: Expression | Identifier,
-    index: IndexExpression | null = null
+
+    index: IndexExpression | null = null,
+    type: Identifier | null
   ) {
     this.Token = token;
     this.Name = name;
     this.Value = value;
     this.Index = index;
+    this.Type = type;
   }
 
   TokenLiteral() {
@@ -59,35 +95,7 @@ export class VarStatement implements Statement {
     } = ${this.Value.String()};`;
   }
 }
-// const statement
-export class ConstStatement implements Statement {
-  Token: Token;
-  Name: Identifier;
-  Value: Expression | Identifier;
-  Index: IndexExpression | null;
 
-  constructor(
-    token: Token,
-    name: Identifier,
-    value: Expression | Identifier,
-    index: IndexExpression | null = null
-  ) {
-    this.Token = token;
-    this.Name = name;
-    this.Value = value;
-    this.Index = index;
-  }
-
-  TokenLiteral() {
-    return this.Token.Literal;
-  }
-
-  String() {
-    return `${this.TokenLiteral()} ${this.Name.String()}${
-      this.Index ? this.Index.String() : ""
-    } = ${this.Value.String()};`;
-  }
-}
 export class ImportSpec implements Statement {
   Token: Token;
   Path: StringLiteral;
@@ -709,41 +717,82 @@ export class EnumElement implements Expression {
   }
 }
 
-// class
-// class Identifier {
-//   Identifier (Identifier)* (LBRACE RBRACE | LBRACE (Statement)* RBRACE)
-// }
-// e.g. class Foo {
-//   bar() {
-//     return "bar";
-//   }
-// }
-export class ClassLiteral implements Expression {
+//TypeDeclaration
+// e.g. ident := stirng | int;
+export class UnionTypeAST implements Expression {
   Token: Token;
   Name: Identifier;
-  Methods: FunctionLiteral[];
-
-  constructor(token: Token, name: Identifier, methods: FunctionLiteral[]) {
+  Members: Expression[];
+  constructor(token: Token, name: Identifier, members: Expression[]) {
     this.Token = token;
     this.Name = name;
-    this.Methods = methods;
+    this.Members = members;
   }
+  String() {
+    return `${this.TokenLiteral()} ${this.Name.String()} { ${this.Members.join(
+      ", "
+    )} }`;
+  }
+  TokenLiteral() {
+    return this.Token.Literal;
+  }
+}
 
+// interface
+// Identifier LBRACE (Identifier (COMMA Identifier)*)? RBRACE
+//e.g. interface I { a: string; b: int; }
+export class InterfaceAST implements Expression {
+  Token: Token;
+  Name: Identifier;
+  Members: InterfaceMember[];
+  constructor(token: Token, name: Identifier, members: InterfaceMember[]) {
+    this.Token = token;
+    this.Name = name;
+    this.Members = members;
+  }
   TokenLiteral() {
     return this.Token.Literal;
   }
   String() {
-    let methods: string[] = this.Methods.map((m) => m.String());
-    return `${this.TokenLiteral()} ${this.Name.String()} { ${methods.join(
-      "; "
+    return `${this.TokenLiteral()} ${this.Name.Value} { ${this.Members.join(
+      ", "
     )} }`;
   }
 }
-// interface
-// interface Identifier {
-//  Identifier: Type (COMMA Identifier: Type)*;
-// }
-// e.g. interface Foo {
-//   bar: string;
-//   baz: number;
-// } 
+// interface member
+// name and type
+// e.g. a: string;
+export class InterfaceMember implements Expression {
+  Token: Token;
+  Name: Identifier;
+  Type: Expression;
+  constructor(token: Token, name: Identifier, type: Expression) {
+    this.Token = token;
+    this.Name = name;
+    this.Type = type;
+  }
+  TokenLiteral() {
+    return this.Token.Literal;
+  }
+  String() {
+    return `${this.TokenLiteral()} ${this.Name.String()} : ${this.Type.String()}`;
+  }
+}
+// annotation
+// @Identifier
+export class AnnotationAST implements Expression {
+  Token: Token;
+  Name: Identifier;
+  Value: Expression | null;
+  constructor(token: Token, name: Identifier, value: Expression | null) {
+    this.Token = token;
+    this.Name = name;
+    this.Value = value;
+  }
+  TokenLiteral() {
+    return this.Token.Literal;
+  }
+  String() {
+    return `${this.TokenLiteral()} @${this.Name.String()}`;
+  }
+}
